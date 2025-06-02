@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Carousel,
@@ -48,8 +47,8 @@ const Gallery = () => {
       alt: "Via Sammartini Milano - posizione strategica vicino Stazione Centrale"
     },
     {
-      src: "/lovable-uploads/9a1458fa-dac5-4d80-83e1-6394f02c7e57.png",
-      alt: "Ingresso palazzo storico Milano - androne elegante Via Sammartini"
+      src: "/lovable-uploads/a315eb3d-787f-4487-b321-412b78588a40.png",
+      alt: "Ingresso palazzo elegante Milano - androne luminoso Via Sammartini"
     },
     {
       src: "/lovable-uploads/2866d0c7-58aa-4892-8f6e-45da64d7c777.png",
