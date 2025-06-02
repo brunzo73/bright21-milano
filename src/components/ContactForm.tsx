@@ -37,28 +37,28 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 gradient-bg">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 gradient-bg">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
             Prenota il Tuo <span className="text-amber-600">Soggiorno</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Compila il form per verificare la disponibilità e ricevere tutte le informazioni
           </p>
         </div>
 
-        <Card className="shadow-2xl border-amber-200">
+        <Card className="shadow-2xl border-amber-200 mx-2 sm:mx-0">
           <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-t-lg">
-            <CardTitle className="text-2xl text-center text-gray-800">
+            <CardTitle className="text-xl sm:text-2xl text-center text-gray-800">
               Richiedi Disponibilità
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CardContent className="p-4 sm:p-6 lg:p-8">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-gray-700 font-medium">
+                  <Label htmlFor="name" className="text-gray-700 font-medium text-sm sm:text-base">
                     Nome completo *
                   </Label>
                   <Input
@@ -68,13 +68,13 @@ const ContactForm = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400"
+                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
                     placeholder="Il tuo nome"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700 font-medium">
+                  <Label htmlFor="email" className="text-gray-700 font-medium text-sm sm:text-base">
                     Email *
                   </Label>
                   <Input
@@ -84,15 +84,15 @@ const ContactForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400"
+                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
                     placeholder="la-tua-email@example.com"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="checkin" className="text-gray-700 font-medium">
+                  <Label htmlFor="checkin" className="text-gray-700 font-medium text-sm sm:text-base">
                     Data check-in *
                   </Label>
                   <Input
@@ -102,12 +102,12 @@ const ContactForm = () => {
                     value={formData.checkin}
                     onChange={handleChange}
                     required
-                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400"
+                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="checkout" className="text-gray-700 font-medium">
+                  <Label htmlFor="checkout" className="text-gray-700 font-medium text-sm sm:text-base">
                     Data check-out *
                   </Label>
                   <Input
@@ -117,13 +117,13 @@ const ContactForm = () => {
                     value={formData.checkout}
                     onChange={handleChange}
                     required
-                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400"
+                    className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message" className="text-gray-700 font-medium">
+                <Label htmlFor="message" className="text-gray-700 font-medium text-sm sm:text-base">
                   Messaggio aggiuntivo
                 </Label>
                 <Textarea
@@ -132,7 +132,7 @@ const ContactForm = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="border-amber-200 focus:border-amber-400 focus:ring-amber-400"
+                  className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
                   placeholder="Raccontaci qualcosa di più sul tuo soggiorno..."
                 />
               </div>
@@ -140,7 +140,7 @@ const ContactForm = () => {
               <div className="text-center">
                 <Button 
                   type="submit" 
-                  className="btn-primary text-lg px-12 py-3"
+                  className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                 >
                   Richiedi Disponibilità Ora
                 </Button>

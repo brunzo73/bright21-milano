@@ -62,57 +62,57 @@ const Gallery = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
             Il Tuo <span className="text-amber-600">Rifugio</span> a Milano
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Scopri gli spazi luminosi e moderni che ti accoglieranno durante il tuo soggiorno
           </p>
         </div>
         
         {/* Galleria principale con carousel */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <Carousel className="w-full max-w-4xl mx-auto">
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="rounded-xl overflow-hidden shadow-lg">
+                  <div className="rounded-xl overflow-hidden shadow-lg mx-2 sm:mx-0">
                     <img 
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-96 md:h-[500px] object-cover"
+                      className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
                     />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
           </Carousel>
         </div>
 
         {/* Griglia di miniature - escludo la prima immagine che è già la copertina */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-12">
           {images.slice(1, 11).map((image, index) => (
             <div key={index} className="card-hover rounded-lg overflow-hidden shadow-md">
               <img 
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-24 md:h-32 object-cover"
+                className="w-full h-20 sm:h-24 md:h-32 object-cover"
               />
             </div>
           ))}
         </div>
         
-        <div className="mt-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-8 md:p-12">
+        <div className="mt-8 sm:mt-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-6 sm:p-8 md:p-12 mx-2 sm:mx-0">
           <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">
               Quattro finestre per la massima luminosità
             </h3>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
               Goditi la luce naturale che filtra tutto il giorno attraverso le ampie finestre, 
               creando un'atmosfera calda e accogliente. Il design moderno si fonde perfettamente 
               con il comfort, offrendoti uno spazio ideale per rilassarti dopo aver esplorato Milano.

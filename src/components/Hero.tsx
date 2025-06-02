@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MapPin } from 'lucide-react';
 
@@ -20,25 +21,23 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/60 to-yellow-900/40"></div>
       </div>
       
-      <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center text-white px-3 sm:px-4 max-w-4xl mx-auto">
         <div className="animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-amber-200 text-5xl">Milan Central Station Apartment
-Short-term Rentals </span><br />
-            <span className="text-2xl md:text-4xl font-light"></span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+            <span className="text-amber-200 text-3xl sm:text-4xl md:text-5xl">Milan Central Station Apartment Short-term Rentals</span><br />
           </h1>
           
-          <div className="flex items-center justify-center mb-8 text-amber-200">
-            <MapPin className="w-6 h-6 mr-2" />
-            <span className="text-xl md:text-2xl">Via Sammartini 21</span>
+          <div className="flex items-center justify-center mb-6 sm:mb-8 text-amber-200">
+            <MapPin className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+            <span className="text-lg sm:text-xl md:text-2xl">Via Sammartini 21</span>
           </div>
           
-          <p className="text-xl md:text-2xl mb-12 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-2">
             Luminoso monolocale di 32 mq al terzo piano, con quattro finestre che offrono luce naturale tutto il giorno. 
             Posizione strategica per esplorare Milano o soggiorni business!
           </p>
           
-          <button onClick={scrollToContact} className="btn-primary text-lg md:text-xl">
+          <button onClick={scrollToContact} className="btn-primary text-base sm:text-lg md:text-xl px-6 sm:px-8">
             Richiedi disponibilità ora
           </button>
         </div>
