@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin } from 'lucide-react';
+
 const Hero = () => {
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
@@ -7,9 +8,15 @@ const Hero = () => {
       behavior: 'smooth'
     });
   };
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1721322800607-8c38375eef04?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Bright modern studio apartment" className="w-full h-full object-cover" />
+        <img 
+          src="/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png" 
+          alt="Bright 21 Central Station apartment interior" 
+          className="w-full h-full object-cover" 
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/60 to-yellow-900/40"></div>
       </div>
       
@@ -36,6 +43,8 @@ Short-term Rentals </span><br />
           </button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;
