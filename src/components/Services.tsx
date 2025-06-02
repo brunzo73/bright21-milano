@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Wifi, ShowerHead, MapPin, Airplane, CheckIn, BedDouble } from 'lucide-react';
+import { Wifi, ShowerHead, MapPin, Plane, Key, BedDouble } from 'lucide-react';
 
 const services = [
   {
@@ -19,12 +19,12 @@ const services = [
     description: 'Accanto alla Stazione Centrale, nel cuore pulsante di Milano'
   },
   {
-    icon: Airplane,
+    icon: Plane,
     title: 'Collegamenti aeroportuali',
     description: 'Metro e bus diretti per Malpensa e Linate a pochi passi'
   },
   {
-    icon: CheckIn,
+    icon: Key,
     title: 'Smart check-in',
     description: 'Arrivo autonomo e flessibile, senza vincoli di orario'
   },
