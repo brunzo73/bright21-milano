@@ -11,6 +11,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     checkin: '',
     checkout: '',
     message: ''
@@ -23,6 +24,7 @@ const ContactForm = () => {
     setFormData({
       name: '',
       email: '',
+      phone: '',
       checkin: '',
       checkout: '',
       message: ''
@@ -88,6 +90,22 @@ const ContactForm = () => {
                     placeholder="la-tua-email@example.com"
                   />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-gray-700 font-medium text-sm sm:text-base">
+                  Numero di telefono (con prefisso) *
+                </Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base"
+                  placeholder="+39 123 456 7890"
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">

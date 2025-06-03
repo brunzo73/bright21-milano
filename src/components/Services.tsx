@@ -30,7 +30,7 @@ const services = [
   },
   {
     icon: BedDouble,
-    title: 'Letto comodo per 2',
+    title: 'Letto comodo per due persone',
     description: 'Zona notte confortevole per un riposo perfetto'
   }
 ];
