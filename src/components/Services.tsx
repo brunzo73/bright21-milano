@@ -5,33 +5,33 @@ import { Wifi, ShowerHead, MapPin, Plane, Key, BedDouble } from 'lucide-react';
 const services = [
   {
     icon: Wifi,
-    title: 'WiFi veloce in fibra',
-    description: 'Connessione illimitata ad alta velocità per lavoro e intrattenimento'
+    title: 'High-speed fiber WiFi',
+    description: 'Unlimited high-speed internet connection for work and entertainment'
   },
   {
     icon: ShowerHead,
-    title: 'Ampia doccia',
-    description: 'Bagno spazioso con doccia confortevole per il massimo relax'
+    title: 'Spacious shower',
+    description: 'Large bathroom with comfortable shower for maximum relaxation'
   },
   {
     icon: MapPin,
-    title: 'Posizione centrale',
-    description: 'Accanto alla Stazione Centrale, nel cuore pulsante di Milano'
+    title: 'Central location',
+    description: 'Next to Central Station, in the heart of Milan'
   },
   {
     icon: Plane,
-    title: 'Collegamenti aeroportuali',
-    description: 'Metro e bus diretti per Malpensa e Linate a pochi passi'
+    title: 'Airport connections',
+    description: 'Direct metro and bus connections to Malpensa and Linate airports'
   },
   {
     icon: Key,
-    title: 'Possibilità di Smart check-in',
-    description: 'Arrivo autonomo e flessibile, senza vincoli di orario'
+    title: 'Smart check-in available',
+    description: 'Autonomous and flexible arrival, without time constraints'
   },
   {
     icon: BedDouble,
-    title: 'Letto comodo per due persone',
-    description: 'Zona notte confortevole per un riposo perfetto'
+    title: 'Comfortable bed for two people',
+    description: 'Comfortable sleeping area for perfect rest'
   }
 ];
 
@@ -41,10 +41,10 @@ const Services = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
-            Comfort e <span className="text-amber-600">Convenienza</span>
+            Comfort and <span className="text-amber-600">Convenience</span>
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Tutto ciò di cui hai bisogno per un soggiorno indimenticabile a Milano
+            Everything you need for an unforgettable stay in Milan
           </p>
         </div>
         
