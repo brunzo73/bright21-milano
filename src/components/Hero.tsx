@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { MapPin } from 'lucide-react';
+
 const Hero = () => {
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
@@ -7,9 +9,15 @@ const Hero = () => {
       behavior: 'smooth'
     });
   };
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img src="/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png" alt="Bright 21 Central Station apartment interior" className="w-full h-full object-cover" />
+        <img 
+          src="/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png" 
+          alt="Bright 21 Central Station apartment interior" 
+          className="w-full h-full object-cover" 
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/60 to-yellow-900/40"></div>
       </div>
       
@@ -24,13 +32,17 @@ const Hero = () => {
             <span className="text-lg sm:text-xl md:text-2xl">Via Sammartini 21</span>
           </div>
           
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-2">Luminoso appartamento di 32 mq al terzo piano, con quattro finestre che offrono luce naturale tutto il giorno. Posizione strategica per esplorare Milano o soggiorni business!</p>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-2">
+            Bright 32 sqm apartment on the third floor, with four windows providing natural light all day. Strategic location to explore Milan or for business stays!
+          </p>
           
           <button onClick={scrollToContact} className="btn-primary text-base sm:text-lg md:text-xl px-6 sm:px-8">
-            Richiedi disponibilità ora
+            Check Availability Now
           </button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;

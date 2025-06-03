@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   Carousel,
@@ -9,54 +10,54 @@ import {
 
 const Gallery = () => {
   const images = [
-    // Immagine principale (copertina) - già utilizzata nell'hero
+    // Main image (cover) - already used in hero
     {
       src: "/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png",
-      alt: "Monolocale luminoso Milano Stazione Centrale - vista generale appartamento moderno"
+      alt: "Bright Milan Central Station studio apartment - modern apartment overview"
     },
-    // Camera da letto
+    // Bedroom
     {
       src: "/lovable-uploads/789a1024-dc38-4fff-8ea2-ae0956adffed.png",
-      alt: "Camera da letto confortevole Milano - letto matrimoniale con arte di Milano"
+      alt: "Comfortable Milan bedroom - double bed with Milan artwork"
     },
     {
       src: "/lovable-uploads/9fdb0a74-dcc3-4ce2-94e4-6f4cb0ba1979.png",
-      alt: "Dettagli camera da letto Milano - asciugamani freschi e comfort"
+      alt: "Milan bedroom details - fresh towels and comfort"
     },
-    // Cucina
+    // Kitchen
     {
       src: "/lovable-uploads/61af2c61-70e4-4627-9ac5-581f5e340d7f.png",
-      alt: "Cucina moderna Milano Centrale - attrezzata con finestra e tende gialle"
+      alt: "Modern Milan Central kitchen - equipped with window and yellow curtains"
     },
     {
       src: "/lovable-uploads/85376af8-9d1c-49c4-a5c1-1d5fc7801edb.png",
-      alt: "Zona pranzo Milano - tavolo per due con vista cucina attrezzata"
+      alt: "Milan dining area - table for two with equipped kitchen view"
     },
     {
       src: "/lovable-uploads/4519b0f4-7471-48e9-8987-b7bb29791f0d.png",
-      alt: "Area pranzo luminosa Milano - tavolo moderno vicino Stazione Centrale"
+      alt: "Bright Milan dining area - modern table near Central Station"
     },
-    // Bagno
+    // Bathroom
     {
       src: "/lovable-uploads/e7bda387-e83b-4db6-ae31-2e1e6a7a5561.png",
-      alt: "Bagno moderno Milano - doccia spaziosa con box vetro e termoarredo"
+      alt: "Modern Milan bathroom - spacious shower with glass enclosure and heated towel rail"
     },
-    // Esterni e posizione
+    // Exterior and location
     {
       src: "/lovable-uploads/55e2504b-5cbf-4165-9e6d-0069d84f92bf.png",
-      alt: "Via Sammartini Milano - posizione strategica vicino Stazione Centrale"
+      alt: "Via Sammartini Milan - strategic location near Central Station"
     },
     {
       src: "/lovable-uploads/a315eb3d-787f-4487-b321-412b78588a40.png",
-      alt: "Ingresso palazzo elegante Milano - androne luminoso Via Sammartini"
+      alt: "Elegant Milan building entrance - bright lobby Via Sammartini"
     },
     {
       src: "/lovable-uploads/2866d0c7-58aa-4892-8f6e-45da64d7c777.png",
-      alt: "Cortile interno Milano - palazzo residenziale tranquillo zona Centrale"
+      alt: "Milan inner courtyard - quiet residential building Central area"
     },
     {
       src: "/lovable-uploads/e92db323-2e5e-4d2c-9042-79fffd113367.png",
-      alt: "Mappa posizione Milano - 160m dalla Stazione Centrale, collegamento perfetto"
+      alt: "Milan location map - 160m from Central Station, perfect connection"
     }
   ];
 
@@ -65,14 +66,14 @@ const Gallery = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
-            Il Tuo <span className="text-amber-600">Rifugio</span> a Milano
+            Your <span className="text-amber-600">Milan</span> Retreat
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Scopri gli spazi luminosi e moderni che ti accoglieranno durante il tuo soggiorno
+            Discover the bright and modern spaces that will welcome you during your stay
           </p>
         </div>
         
-        {/* Galleria principale con carousel */}
+        {/* Main gallery with carousel */}
         <div className="mb-8 sm:mb-12">
           <Carousel className="w-full max-w-4xl mx-auto">
             <CarouselContent>
@@ -93,7 +94,7 @@ const Gallery = () => {
           </Carousel>
         </div>
 
-        {/* Griglia di miniature - escludo la prima immagine che è già la copertina */}
+        {/* Thumbnail grid - excluding the first image which is already the cover */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-12">
           {images.slice(1, 11).map((image, index) => (
             <div key={index} className="card-hover rounded-lg overflow-hidden shadow-md">
@@ -109,12 +110,12 @@ const Gallery = () => {
         <div className="mt-8 sm:mt-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-6 sm:p-8 md:p-12 mx-2 sm:mx-0">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">
-              Quattro finestre per la massima luminosità
+              Four windows for maximum brightness
             </h3>
             <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-              Goditi la luce naturale che filtra tutto il giorno attraverso le ampie finestre, 
-              creando un'atmosfera calda e accogliente. Il design moderno si fonde perfettamente 
-              con il comfort, offrendoti uno spazio ideale per rilassarti dopo aver esplorato Milano.
+              Enjoy natural light filtering throughout the day through large windows, 
+              creating a warm and welcoming atmosphere. The modern design blends perfectly 
+              with comfort, offering you an ideal space to relax after exploring Milan.
             </p>
           </div>
         </div>

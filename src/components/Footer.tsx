@@ -12,46 +12,46 @@ const Footer = () => {
               Bright 21 Central Station
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Il tuo rifugio luminoso nel cuore di Milano. Comfort moderno e posizione strategica 
-              per un'esperienza indimenticabile.
+              Your bright refuge in the heart of Milan. Modern comfort and strategic location 
+              for an unforgettable experience.
             </p>
           </div>
           
           <div>
             <h4 className="text-xl font-semibold mb-4 text-amber-400">
-              Caratteristiche Principali
+              Key Features
             </h4>
             <ul className="space-y-2 text-gray-300">
               <li className="flex items-center">
                 <MapPin className="w-5 h-5 mr-2 text-amber-400" />
-                Stazione Centrale
+                Central Station
               </li>
               <li className="flex items-center">
                 <Wifi className="w-5 h-5 mr-2 text-amber-400" />
-                WiFi Fibra Ottica
+                Fiber Optic WiFi
               </li>
               <li className="flex items-center">
                 <ShowerHead className="w-5 h-5 mr-2 text-amber-400" />
-                Bagno Spazioso
+                Spacious Bathroom
               </li>
             </ul>
           </div>
           
           <div>
             <h4 className="text-xl font-semibold mb-4 text-amber-400">
-              Contatti
+              Contact
             </h4>
             <p className="text-gray-300 mb-2">
-              Per prenotazioni e informazioni, compila il form di contatto sopra.
+              For bookings and information, fill out the contact form above.
             </p>
             <p className="text-gray-300">
-              Ti risponderemo entro 24 ore!
+              We will respond within 24 hours!
             </p>
           </div>
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Bright 21 Central Station. Tutti i diritti riservati.</p>
+          <p>&copy; 2024 Bright 21 Central Station. All rights reserved.</p>
         </div>
       </div>
     </footer>
