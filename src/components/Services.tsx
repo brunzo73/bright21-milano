@@ -25,7 +25,7 @@ const services = [
   },
   {
     icon: Key,
-    title: 'Smart check-in',
+    title: 'Possibilità di Smart check-in',
     description: 'Arrivo autonomo e flessibile, senza vincoli di orario'
   },
   {
