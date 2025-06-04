@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { Star, Users } from 'lucide-react';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -45,15 +46,54 @@ const ContactForm = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
             Book Your <span className="text-amber-600">Stay</span>
           </h2>
+          
+          {/* Striking Price Banner */}
+          <div className="relative mx-auto mb-8 max-w-md">
+            <div className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 p-1 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300">
+              <div className="bg-white rounded-xl p-6 text-center relative overflow-hidden">
+                {/* Decorative elements */}
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50/30 to-yellow-50/30 pointer-events-none"></div>
+                <div className="absolute -top-2 -right-2 w-12 h-12 bg-amber-400 rounded-full opacity-20"></div>
+                <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-yellow-400 rounded-full opacity-20"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-center mb-2">
+                    <Users className="w-5 h-5 text-amber-600 mr-2" />
+                    <span className="text-sm font-medium text-gray-600">For 2 guests</span>
+                  </div>
+                  
+                  <div className="mb-2">
+                    <span className="text-sm text-gray-500 line-through">€89</span>
+                    <span className="text-4xl font-bold text-gray-800 ml-2">€69</span>
+                    <span className="text-lg text-gray-600">/night</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-center mb-3">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="text-sm text-gray-600 ml-2">Premium Location</span>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg px-3 py-1 inline-block">
+                    <span className="text-sm font-semibold text-green-800">✓ Best Rate Guaranteed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Fill out the form to check availability and receive all the information
+            Complete the form below to get instant availability and confirm your booking at this exclusive rate
           </p>
         </div>
 
         <Card className="shadow-2xl border-amber-200 mx-2 sm:mx-0">
           <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-t-lg">
             <CardTitle className="text-xl sm:text-2xl text-center text-gray-800">
-              Check Availability
+              Check Availability & Secure Your Rate
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 lg:p-8">
