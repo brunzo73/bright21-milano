@@ -48,8 +48,8 @@ const Gallery = () => {
       alt: "Via Sammartini Milan - strategic location near Central Station"
     },
     {
-      src: "/lovable-uploads/a315eb3d-787f-4487-b321-412b78588a40.png",
-      alt: "Elegant Milan building entrance - bright lobby Via Sammartini"
+      src: "/lovable-uploads/4e6643a8-7e39-4998-8633-43d7315ad5bd.png",
+      alt: "Elegant Milan building entrance - bright hallway with classic architecture Via Sammartini"
     },
     {
       src: "/lovable-uploads/2866d0c7-58aa-4892-8f6e-45da64d7c777.png",
