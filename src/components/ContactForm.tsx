@@ -63,9 +63,11 @@ const ContactForm = () => {
                   </div>
                   
                   <div className="mb-2">
-                    <span className="text-sm text-gray-500 line-through">€89</span>
-                    <span className="text-4xl font-bold text-gray-800 ml-2">€69</span>
-                    <span className="text-lg text-gray-600">/night</span>
+                    <span className="text-lg text-gray-600">A partire da</span>
+                    <div className="mt-1">
+                      <span className="text-4xl font-bold text-gray-800">€69</span>
+                      <span className="text-lg text-gray-600">/notte</span>
+                    </div>
                   </div>
                   
                   <div className="flex items-center justify-center mb-3">
