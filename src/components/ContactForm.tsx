@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Star, Users, Shield } from 'lucide-react';
+import { Star, Users, Shield, RefreshCw } from 'lucide-react';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -20,27 +20,33 @@ const ContactForm = () => {
   });
 
   const [privacyConsent, setPrivacyConsent] = useState(false);
-  const [captcha, setCaptcha] = useState({ question: '', answer: 0, userAnswer: '' });
+  const [captcha, setCaptcha] = useState({ 
+    question: '', 
+    answer: '', 
+    userAnswer: '', 
+    options: [] as string[] 
+  });
 
-  // Genera una nuova domanda captcha
+  // Generate a new captcha question
   const generateCaptcha = () => {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const operations = ['+', '-'];
-    const operation = operations[Math.floor(Math.random() * operations.length)];
+    const questions = [
+      { question: 'What color is the sky?', answer: 'blue', options: ['red', 'blue', 'green', 'yellow'] },
+      { question: 'How many legs does a cat have?', answer: '4', options: ['2', '4', '6', '8'] },
+      { question: 'What is 2 + 2?', answer: '4', options: ['3', '4', '5', '6'] },
+      { question: 'Which animal says "meow"?', answer: 'cat', options: ['dog', 'cat', 'bird', 'fish'] },
+      { question: 'What comes after Monday?', answer: 'tuesday', options: ['sunday', 'tuesday', 'friday', 'saturday'] },
+      { question: 'How many days in a week?', answer: '7', options: ['5', '6', '7', '8'] }
+    ];
     
-    let answer;
-    let question;
+    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+    const shuffledOptions = [...randomQuestion.options].sort(() => Math.random() - 0.5);
     
-    if (operation === '+') {
-      answer = num1 + num2;
-      question = `${num1} + ${num2}`;
-    } else {
-      answer = num1 - num2;
-      question = `${num1} - ${num2}`;
-    }
-    
-    setCaptcha({ question, answer, userAnswer: '' });
+    setCaptcha({
+      question: randomQuestion.question,
+      answer: randomQuestion.answer.toLowerCase(),
+      userAnswer: '',
+      options: shuffledOptions
+    });
   };
 
   useEffect(() => {
@@ -50,53 +56,53 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validazioni
+    // Validations
     if (!formData.email) {
-      toast.error('L\'email è obbligatoria');
+      toast.error('Email is required');
       return;
     }
 
     if (!formData.checkin || !formData.checkout) {
-      toast.error('Le date di check-in e check-out sono obbligatorie');
+      toast.error('Check-in and check-out dates are required');
       return;
     }
 
     if (!privacyConsent) {
-      toast.error('È necessario accettare il trattamento dati per procedere');
+      toast.error('You must accept the privacy policy to proceed');
       return;
     }
 
-    if (parseInt(captcha.userAnswer) !== captcha.answer) {
-      toast.error('Risposta captcha errata. Riprova.');
+    if (captcha.userAnswer.toLowerCase() !== captcha.answer) {
+      toast.error('Incorrect captcha answer. Please try again.');
       generateCaptcha();
       return;
     }
 
-    // Prepara i dati per l'invio
+    // Prepare email data
     const emailData = {
       to: ['alebresci75@gmail.com', 'lorenzo.vigo@gmail.com'],
-      subject: `Nuova richiesta informazioni per casetta Milano da ${formData.checkin} a ${formData.checkout}`,
+      subject: `New inquiry for Milan cottage from ${formData.checkin} to ${formData.checkout}`,
       body: `
-        Nuova richiesta di prenotazione ricevuta:
+        New booking inquiry received:
         
-        Nome: ${formData.name || 'Non specificato'}
+        Name: ${formData.name || 'Not specified'}
         Email: ${formData.email}
-        Telefono: ${formData.phone || 'Non specificato'}
+        Phone: ${formData.phone || 'Not specified'}
         Check-in: ${formData.checkin}
         Check-out: ${formData.checkout}
         
-        Messaggio:
-        ${formData.message || 'Nessun messaggio aggiuntivo'}
+        Message:
+        ${formData.message || 'No additional message'}
         
-        Consenso privacy: Accettato
-        Data richiesta: ${new Date().toLocaleString('it-IT')}
+        Privacy consent: Accepted
+        Request date: ${new Date().toLocaleString('en-US')}
       `
     };
 
-    console.log('Dati email da inviare:', emailData);
+    console.log('Email data to send:', emailData);
     
-    // Simula invio email (in produzione qui andrà la chiamata API reale)
-    toast.success('Richiesta inviata con successo! Ti contatteremo presto.');
+    // Simulate email sending (in production this would be a real API call)
+    toast.success('Request sent successfully! We will contact you soon.');
     
     // Reset form
     setFormData({
@@ -118,10 +124,10 @@ const ContactForm = () => {
     });
   };
 
-  const handleCaptchaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCaptchaChange = (value: string) => {
     setCaptcha({
       ...captcha,
-      userAnswer: e.target.value
+      userAnswer: value
     });
   };
 
@@ -145,14 +151,14 @@ const ContactForm = () => {
                 <div className="relative z-10">
                   <div className="flex items-center justify-center mb-2">
                     <Users className="w-5 h-5 text-amber-600 mr-2" />
-                    <span className="text-sm font-medium text-gray-600">Per 2 ospiti</span>
+                    <span className="text-sm font-medium text-gray-600">For 2 guests</span>
                   </div>
                   
                   <div className="mb-2">
-                    <span className="text-lg text-gray-600">A partire da</span>
+                    <span className="text-lg text-gray-600">Starting from</span>
                     <div className="mt-1">
                       <span className="text-4xl font-bold text-gray-800">€69</span>
-                      <span className="text-lg text-gray-600">per notte</span>
+                      <span className="text-lg text-gray-600">per night</span>
                     </div>
                   </div>
                   
@@ -162,11 +168,11 @@ const ContactForm = () => {
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className="text-sm text-gray-600 ml-2">Posizione Premium</span>
+                    <span className="text-sm text-gray-600 ml-2">Premium Location</span>
                   </div>
                   
                   <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg px-3 py-1 inline-block">
-                    <span className="text-sm font-semibold text-green-800">✓ Miglior Prezzo Garantito</span>
+                    <span className="text-sm font-semibold text-green-800">✓ Best Price Guaranteed</span>
                   </div>
                 </div>
               </div>
@@ -174,14 +180,14 @@ const ContactForm = () => {
           </div>
           
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Compila il modulo per verificare la disponibilità e confermare la tua prenotazione a questa tariffa esclusiva
+            Fill out the form to check availability and confirm your booking at this exclusive rate
           </p>
         </div>
 
         <Card className="shadow-2xl border-amber-200 mx-2 sm:mx-0">
           <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-t-lg">
             <CardTitle className="text-xl sm:text-2xl text-center text-gray-800">
-              Verifica Disponibilità & Prenota
+              Check Availability & Book
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 lg:p-8">
@@ -189,7 +195,7 @@ const ContactForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-gray-700 font-medium text-sm sm:text-base">
-                    Nome completo
+                    Full Name
                   </Label>
                   <Input 
                     id="name" 
@@ -198,7 +204,7 @@ const ContactForm = () => {
                     value={formData.name} 
                     onChange={handleChange} 
                     className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
-                    placeholder="Il tuo nome completo" 
+                    placeholder="Your full name" 
                   />
                 </div>
                 
@@ -214,14 +220,14 @@ const ContactForm = () => {
                     onChange={handleChange} 
                     required 
                     className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
-                    placeholder="tua-email@esempio.com" 
+                    placeholder="your-email@example.com" 
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="phone" className="text-gray-700 font-medium text-sm sm:text-base">
-                  Numero di telefono (con prefisso internazionale)
+                  Phone Number (with international prefix)
                 </Label>
                 <Input 
                   id="phone" 
@@ -237,7 +243,7 @@ const ContactForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="checkin" className="text-gray-700 font-medium text-sm sm:text-base">
-                    Data check-in *
+                    Check-in Date *
                   </Label>
                   <Input 
                     id="checkin" 
@@ -252,7 +258,7 @@ const ContactForm = () => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="checkout" className="text-gray-700 font-medium text-sm sm:text-base">
-                    Data check-out *
+                    Check-out Date *
                   </Label>
                   <Input 
                     id="checkout" 
@@ -268,7 +274,7 @@ const ContactForm = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="message" className="text-gray-700 font-medium text-sm sm:text-base">
-                  Messaggio aggiuntivo
+                  Additional Message
                 </Label>
                 <Textarea 
                   id="message" 
@@ -277,25 +283,44 @@ const ContactForm = () => {
                   onChange={handleChange} 
                   rows={4} 
                   className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
-                  placeholder="Raccontaci di più sul tuo soggiorno..." 
+                  placeholder="Tell us more about your stay..." 
                 />
               </div>
 
               {/* Captcha */}
-              <div className="space-y-2">
-                <Label htmlFor="captcha" className="text-gray-700 font-medium text-sm sm:text-base flex items-center">
-                  <Shield className="w-4 h-4 mr-2" />
-                  Verifica di sicurezza: Quanto fa {captcha.question}? *
-                </Label>
-                <Input 
-                  id="captcha" 
-                  type="number" 
-                  value={captcha.userAnswer} 
-                  onChange={handleCaptchaChange} 
-                  required 
-                  className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base max-w-32" 
-                  placeholder="Risultato" 
-                />
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label className="text-gray-700 font-medium text-sm sm:text-base flex items-center">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Security Verification: {captcha.question} *
+                  </Label>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={generateCaptcha}
+                    className="flex items-center gap-1"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    New Question
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {captcha.options.map((option, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleCaptchaChange(option)}
+                      className={`p-3 border-2 rounded-lg text-center transition-all ${
+                        captcha.userAnswer === option
+                          ? 'border-amber-400 bg-amber-50 text-amber-800'
+                          : 'border-gray-200 hover:border-amber-300'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Privacy Checkbox */}
@@ -303,17 +328,17 @@ const ContactForm = () => {
                 <Checkbox
                   id="privacy"
                   checked={privacyConsent}
-                  onCheckedChange={setPrivacyConsent}
+                  onCheckedChange={(checked) => setPrivacyConsent(checked === true)}
                   className="mt-1"
                 />
                 <div className="space-y-1">
                   <Label htmlFor="privacy" className="text-sm font-medium text-gray-900 cursor-pointer">
-                    Consenso al trattamento dei dati personali *
+                    Consent to personal data processing *
                   </Label>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    Acconsento al trattamento dei miei dati personali per finalità di gestione della prenotazione e comunicazioni relative al soggiorno, 
-                    ai sensi del Regolamento UE 2016/679 (GDPR) e del D.Lgs. 196/2003. I dati saranno trattati esclusivamente per le finalità indicate 
-                    e non saranno comunicati a terzi senza consenso.
+                    I consent to the processing of my personal data for booking management and stay-related communications, 
+                    in accordance with EU Regulation 2016/679 (GDPR) and Legislative Decree 196/2003. Data will be processed 
+                    exclusively for the indicated purposes and will not be communicated to third parties without consent.
                   </p>
                 </div>
               </div>
@@ -324,7 +349,7 @@ const ContactForm = () => {
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                   disabled={!privacyConsent}
                 >
-                  Verifica Disponibilità
+                  Check Availability
                 </Button>
               </div>
             </form>
