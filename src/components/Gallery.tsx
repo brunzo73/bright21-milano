@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -7,8 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { X } from 'lucide-react';
 
 const Gallery = () => {
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+
   const images = [
     // Main image (cover) - already used in hero
     {
@@ -79,13 +83,32 @@ const Gallery = () => {
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="rounded-xl overflow-hidden shadow-lg mx-2 sm:mx-0">
-                    <img 
-                      src={image.src}
-                      alt={image.alt}
-                      className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
-                    />
-                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="rounded-xl overflow-hidden shadow-lg mx-2 sm:mx-0 cursor-pointer hover:shadow-xl transition-shadow">
+                        <img 
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-7xl w-full p-0 bg-black border-0">
+                      <div className="relative">
+                        <img 
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-auto max-h-[90vh] object-contain"
+                        />
+                        <button
+                          onClick={() => setSelectedImage(null)}
+                          className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                        >
+                          <X className="w-6 h-6" />
+                        </button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -97,13 +120,32 @@ const Gallery = () => {
         {/* Thumbnail grid - excluding the first image which is already the cover */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-12">
           {images.slice(1, 11).map((image, index) => (
-            <div key={index} className="card-hover rounded-lg overflow-hidden shadow-md">
-              <img 
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-20 sm:h-24 md:h-32 object-cover"
-              />
-            </div>
+            <Dialog key={index}>
+              <DialogTrigger asChild>
+                <div className="card-hover rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow">
+                  <img 
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-20 sm:h-24 md:h-32 object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-7xl w-full p-0 bg-black border-0">
+                <div className="relative">
+                  <img 
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-auto max-h-[90vh] object-contain"
+                  />
+                  <button
+                    onClick={() => setSelectedImage(null)}
+                    className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+              </DialogContent>
+            </Dialog>
           ))}
         </div>
         
