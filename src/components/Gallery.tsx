@@ -1,17 +1,20 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { X } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
 
   const images = [
     // Main image (cover) - already used in hero
@@ -65,6 +68,24 @@ const Gallery = () => {
     }
   ];
 
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  const scrollToImage = useCallback((index: number) => {
+    if (api) {
+      api.scrollTo(index);
+    }
+  }, [api]);
+
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
       <div className="max-w-6xl mx-auto">
@@ -79,7 +100,7 @@ const Gallery = () => {
         
         {/* Main gallery with carousel */}
         <div className="mb-8 sm:mb-12">
-          <Carousel className="w-full max-w-4xl mx-auto">
+          <Carousel setApi={setApi} className="w-full max-w-4xl mx-auto">
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem key={index}>
@@ -117,35 +138,22 @@ const Gallery = () => {
           </Carousel>
         </div>
 
-        {/* Thumbnail grid - excluding the first image which is already the cover */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-12">
-          {images.slice(1, 11).map((image, index) => (
-            <Dialog key={index}>
-              <DialogTrigger asChild>
-                <div className="card-hover rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow">
-                  <img 
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-20 sm:h-24 md:h-32 object-cover hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-7xl w-full p-0 bg-black border-0">
-                <div className="relative">
-                  <img 
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-auto max-h-[90vh] object-contain"
-                  />
-                  <button
-                    onClick={() => setSelectedImage(null)}
-                    className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-              </DialogContent>
-            </Dialog>
+        {/* Thumbnail grid - all images clickable to jump to main carousel */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 mb-8 sm:mb-12">
+          {images.map((image, index) => (
+            <div 
+              key={index} 
+              className={`card-hover rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-all duration-300 ${
+                current === index ? 'ring-2 ring-amber-500 ring-offset-2' : ''
+              }`}
+              onClick={() => scrollToImage(index)}
+            >
+              <img 
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-20 sm:h-24 md:h-32 object-cover hover:scale-110 transition-transform duration-300"
+              />
+            </div>
           ))}
         </div>
         
