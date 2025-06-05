@@ -1,10 +1,7 @@
-
 import React from 'react';
 import { MapPin, Wifi, ShowerHead } from 'lucide-react';
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-800 text-white py-12 px-4">
+  return <footer className="bg-gray-800 text-white py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -51,11 +48,9 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Bright 21 Central Station. All rights reserved.</p>
+          <p>© 2025 Bright 21 Central Station. All rights reserved.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
