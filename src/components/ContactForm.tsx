@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Star, Users, Shield, RefreshCw } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +20,7 @@ const ContactForm = () => {
   });
 
   const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [captcha, setCaptcha] = useState({ 
     question: '', 
     answer: '', 
@@ -55,66 +56,70 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    // Validations
-    if (!formData.email) {
-      toast.error('Email is required');
-      return;
-    }
+    try {
+      // Validations
+      if (!formData.email) {
+        toast.error('Email is required');
+        return;
+      }
 
-    if (!formData.checkin || !formData.checkout) {
-      toast.error('Check-in and check-out dates are required');
-      return;
-    }
+      if (!formData.checkin || !formData.checkout) {
+        toast.error('Check-in and check-out dates are required');
+        return;
+      }
 
-    if (!privacyConsent) {
-      toast.error('You must accept the privacy policy to proceed');
-      return;
-    }
+      if (!privacyConsent) {
+        toast.error('You must accept the privacy policy to proceed');
+        return;
+      }
 
-    if (captcha.userAnswer.toLowerCase() !== captcha.answer) {
-      toast.error('Incorrect captcha answer. Please try again.');
+      if (captcha.userAnswer.toLowerCase() !== captcha.answer) {
+        toast.error('Incorrect captcha answer. Please try again.');
+        generateCaptcha();
+        return;
+      }
+
+      // Call the edge function to send email
+      const { data, error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          checkin: formData.checkin,
+          checkout: formData.checkout,
+          message: formData.message
+        }
+      });
+
+      if (error) {
+        console.error('Errore invio email:', error);
+        toast.error('Errore nell\'invio della richiesta. Riprova più tardi.');
+        return;
+      }
+
+      console.log('Email inviata con successo:', data);
+      toast.success('Richiesta inviata con successo! Ti contatteremo presto.');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        checkin: '',
+        checkout: '',
+        message: ''
+      });
+      setPrivacyConsent(false);
       generateCaptcha();
-      return;
+
+    } catch (error) {
+      console.error('Errore nell\'invio:', error);
+      toast.error('Errore nell\'invio della richiesta. Riprova più tardi.');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // Prepare email data
-    const emailData = {
-      to: ['alebresci75@gmail.com', 'lorenzo.vigo@gmail.com'],
-      subject: `New inquiry for Milan cottage from ${formData.checkin} to ${formData.checkout}`,
-      body: `
-        New booking inquiry received:
-        
-        Name: ${formData.name || 'Not specified'}
-        Email: ${formData.email}
-        Phone: ${formData.phone || 'Not specified'}
-        Check-in: ${formData.checkin}
-        Check-out: ${formData.checkout}
-        
-        Message:
-        ${formData.message || 'No additional message'}
-        
-        Privacy consent: Accepted
-        Request date: ${new Date().toLocaleString('en-US')}
-      `
-    };
-
-    console.log('Email data to send:', emailData);
-    
-    // Simulate email sending (in production this would be a real API call)
-    toast.success('Request sent successfully! We will contact you soon.');
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      checkin: '',
-      checkout: '',
-      message: ''
-    });
-    setPrivacyConsent(false);
-    generateCaptcha();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -347,9 +352,9 @@ const ContactForm = () => {
                 <Button 
                   type="submit" 
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
-                  disabled={!privacyConsent}
+                  disabled={!privacyConsent || isSubmitting}
                 >
-                  Check Availability
+                  {isSubmitting ? 'Invio in corso...' : 'Check Availability'}
                 </Button>
               </div>
             </form>
