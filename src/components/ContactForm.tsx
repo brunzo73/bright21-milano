@@ -70,6 +70,25 @@ const ContactForm = () => {
         return;
       }
 
+      // Validate that check-in is before check-out
+      const checkinDate = new Date(formData.checkin);
+      const checkoutDate = new Date(formData.checkout);
+      
+      if (checkinDate >= checkoutDate) {
+        toast.error('La data di check-in deve essere precedente alla data di check-out');
+        return;
+      }
+
+      // Validate that check-in is not in the past
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      checkinDate.setHours(0, 0, 0, 0);
+      
+      if (checkinDate < today) {
+        toast.error('La data di check-in non può essere nel passato');
+        return;
+      }
+
       if (!privacyConsent) {
         toast.error('You must accept the privacy policy to proceed');
         return;
@@ -135,6 +154,11 @@ const ContactForm = () => {
       userAnswer: value
     });
   };
+
+  // Set minimum date to today for check-in
+  const today = new Date().toISOString().split('T')[0];
+  // Set minimum date for check-out based on check-in date
+  const minCheckoutDate = formData.checkin || today;
 
   return (
     <section id="contact" className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 gradient-bg">
@@ -257,6 +281,7 @@ const ContactForm = () => {
                     value={formData.checkin} 
                     onChange={handleChange} 
                     required 
+                    min={today}
                     className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
                   />
                 </div>
@@ -272,6 +297,7 @@ const ContactForm = () => {
                     value={formData.checkout} 
                     onChange={handleChange} 
                     required 
+                    min={minCheckoutDate}
                     className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
                   />
                 </div>
