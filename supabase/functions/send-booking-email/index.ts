@@ -35,7 +35,7 @@ const handler = async (req: Request): Promise<Response> => {
     const checkoutDate = new Date(checkout).toLocaleDateString('it-IT');
 
     const emailResponse = await resend.emails.send({
-      from: "Casetta Milano <onboarding@resend.dev>",
+      from: "Casetta Milano <noreply@yourdomain.com>", // Sostituisci con il tuo dominio verificato
       to: ["alebresci75@gmail.com", "lorenzo.vigo@gmail.com"],
       subject: `Nuova richiesta informazioni per casetta Milano da ${checkinDate} a ${checkoutDate}`,
       html: `
