@@ -36,7 +36,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Casetta Milano <onboarding@resend.dev>",
-      to: ["lorenzo.vigo@gmail.com"], // Temporaneamente solo a lorenzo.vigo@gmail.com
+      to: ["alebresci75@gmail.com", "lorenzo.vigo@gmail.com"],
       subject: `Nuova richiesta informazioni per casetta Milano da ${checkinDate} a ${checkoutDate}`,
       html: `
         <h2>Nuova richiesta di prenotazione ricevuta</h2>
@@ -62,8 +62,6 @@ const handler = async (req: Request): Promise<Response> => {
         <hr>
         <p><small>Richiesta ricevuta il: ${new Date().toLocaleString('it-IT')}</small></p>
         <p><small>Consenso privacy: Accettato</small></p>
-        
-        <p><strong>NOTA:</strong> Questa email è stata inviata anche a alebresci75@gmail.com (una volta verificato il dominio)</p>
       `,
     });
 
