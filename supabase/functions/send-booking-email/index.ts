@@ -28,13 +28,15 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { name, email, phone, checkin, checkout, message }: BookingEmailRequest = await req.json();
 
+    console.log("Dati ricevuti:", { name, email, phone, checkin, checkout, message });
+
     // Format dates for better readability
     const checkinDate = new Date(checkin).toLocaleDateString('it-IT');
     const checkoutDate = new Date(checkout).toLocaleDateString('it-IT');
 
     const emailResponse = await resend.emails.send({
       from: "Casetta Milano <onboarding@resend.dev>",
-      to: ["alebresci75@gmail.com", "lorenzo.vigo@gmail.com"],
+      to: ["lorenzo.vigo@gmail.com"], // Temporaneamente solo a lorenzo.vigo@gmail.com
       subject: `Nuova richiesta informazioni per casetta Milano da ${checkinDate} a ${checkoutDate}`,
       html: `
         <h2>Nuova richiesta di prenotazione ricevuta</h2>
@@ -60,6 +62,8 @@ const handler = async (req: Request): Promise<Response> => {
         <hr>
         <p><small>Richiesta ricevuta il: ${new Date().toLocaleString('it-IT')}</small></p>
         <p><small>Consenso privacy: Accettato</small></p>
+        
+        <p><strong>NOTA:</strong> Questa email è stata inviata anche a alebresci75@gmail.com (una volta verificato il dominio)</p>
       `,
     });
 
