@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Star, Users, Shield, RefreshCw } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -100,25 +100,38 @@ const ContactForm = () => {
         return;
       }
 
-      // Call the edge function to send email
-      const { data, error } = await supabase.functions.invoke('send-booking-email', {
-        body: {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          checkin: formData.checkin,
-          checkout: formData.checkout,
-          message: formData.message
-        }
+      // Create form data for FormSubmit
+      const form = document.createElement('form');
+      form.action = 'https://formsubmit.co/alebresci75@gmail.com';
+      form.method = 'POST';
+      form.style.display = 'none';
+
+      // Add form fields
+      const fields = [
+        { name: '_subject', value: `Nuova richiesta prenotazione Casetta Milano` },
+        { name: '_cc', value: 'lorenzo.vigo@gmail.com' },
+        { name: '_template', value: 'table' },
+        { name: '_captcha', value: 'false' },
+        { name: 'name', value: formData.name },
+        { name: 'email', value: formData.email },
+        { name: 'phone', value: formData.phone },
+        { name: 'checkin', value: formData.checkin },
+        { name: 'checkout', value: formData.checkout },
+        { name: 'message', value: formData.message }
+      ];
+
+      fields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = field.name;
+        input.value = field.value;
+        form.appendChild(input);
       });
 
-      if (error) {
-        console.error('Errore invio email:', error);
-        toast.error('Errore nell\'invio della richiesta. Riprova più tardi.');
-        return;
-      }
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
 
-      console.log('Email inviata con successo:', data);
       toast.success('Richiesta inviata con successo! Ti contatteremo presto.');
       
       // Reset form
