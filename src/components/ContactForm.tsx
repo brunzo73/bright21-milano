@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Star, Users, Shield, RefreshCw } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -99,6 +100,30 @@ const ContactForm = () => {
         generateCaptcha();
         return;
       }
+
+      // Save booking data to Supabase
+      console.log('Saving booking data to Supabase...');
+      const { data: bookingData, error: bookingError } = await supabase
+        .from('bookings')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            checkin: formData.checkin,
+            checkout: formData.checkout,
+            message: formData.message
+          }
+        ])
+        .select();
+
+      if (bookingError) {
+        console.error('Errore nel salvare i dati:', bookingError);
+        toast.error('Errore nel salvare i dati. Riprova più tardi.');
+        return;
+      }
+
+      console.log('Booking saved successfully:', bookingData);
 
       // Create form data for FormSubmit
       const form = document.createElement('form');
