@@ -59,12 +59,16 @@ const Gallery = () => {
       alt: "Elegant Milan building entrance - bright hallway with classic architecture Via Sammartini"
     },
     {
-      src: "/lovable-uploads/2866d0c7-58aa-4892-8f6e-45da64d7c777.png",
-      alt: "Milan inner courtyard - quiet residential building Central area"
+      src: "/lovable-uploads/0bcf95f4-af8a-4436-b374-f82ec51f3ef2.png",
+      alt: "Milan building entrance hallway - elegant traditional architecture"
     },
     {
       src: "/lovable-uploads/e92db323-2e5e-4d2c-9042-79fffd113367.png",
       alt: "Milan location map - 160m from Central Station, perfect connection"
+    },
+    {
+      src: "/lovable-uploads/0922e57d-3735-4e34-ac8f-fea10ca74964.png",
+      alt: "Milano apartment entrance - welcoming doormat and modern flooring"
     }
   ];
 
