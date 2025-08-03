@@ -19,7 +19,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Ciao! Sono Milo, il tuo assistente virtuale per l'alloggio di Milano. Come posso aiutarti? Puoi chiedermi informazioni sulla posizione, i trasporti, i servizi della zona o le caratteristiche dell'appartamento!",
+      text: "Hello! I'm Milo, your virtual assistant for this comfortable Milan apartment. How can I help you? You can ask me about the location, transport, area services, or apartment features!",
       isBot: true,
       timestamp: new Date()
     }

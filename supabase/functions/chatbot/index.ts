@@ -7,43 +7,45 @@ const corsHeaders = {
 };
 
 const ACCOMMODATION_INFO = `
-INFORMAZIONI ALLOGGIO MILANO - STAZIONE CENTRALE
+ACCOMMODATION INFORMATION - MILAN CENTRAL STATION
 
-DESCRIZIONE GENERALE:
-- Luminoso monolocale di 32 mq al terzo piano (senza ascensore)
-- 4 finestre con doppia esposizione per luce naturale tutto il giorno
-- Recentemente ristrutturato con stile moderno e funzionale
-- Posizione strategica: accanto alla Stazione Centrale di Milano
+ADDRESS: Via Sammartini 21, Milan - Next to Central Station
 
-CARATTERISTICHE APPARTAMENTO:
-- Cucina spaziosa completa di tutto l'indispensabile
-- Tavolo da pranzo utilizzabile anche come postazione di lavoro
-- Letto ampio e comodo
-- TV Smart con canali nazionali, Netflix, Prime Video, YouTube
-- Amazon Alexa per musica e informazioni
-- Cabina armadio separata
-- Bagno ampio e luminoso con spaziosa doccia moderna e lavatrice
-- WiFi fibra ottica illimitato
-- Impianto illuminazione cromatica per atmosfera
-- Climatizzazione (riscaldamento/aria condizionata)
+GENERAL DESCRIPTION:
+- Bright 32 sqm studio apartment on the third floor (no elevator)
+- 4 windows with double exposure providing natural light all day
+- Recently renovated with modern and functional style
+- Strategic location: next to Milan Central Station
 
-POSIZIONE E TRASPORTI:
-- A soli 2 minuti a piedi dalla Stazione Centrale di Milano
-- 3° piano senza ascensore (salita leggera e facilmente affrontabile)
-- Palazzo con cortile interno tranquillo
-- Posizione centralissima ma silenziosa grazie a finestre con doppi vetri
-- Metropolitana: linee M2 e M3 per raggiungere Duomo, via Montenapoleone, Castello Sforzesco in meno di 10 minuti
-- Accesso diretto a metro e bus per gli aeroporti
+APARTMENT FEATURES:
+- Spacious kitchen complete with all essentials
+- Dining table that can also be used as a work station
+- Large and comfortable bed
+- Smart TV with national channels, Netflix, Prime Video, YouTube
+- Amazon Alexa for music and information
+- Separate walk-in closet
+- Large and bright bathroom with spacious modern shower and washing machine
+- Unlimited fiber optic WiFi
+- Color lighting system for atmosphere
+- Air conditioning (heating/air conditioning)
 
-SERVIZI ZONA:
-- Ricca di servizi: supermercati, negozi, banche, bar, pasticcerie, pizzerie, ristoranti
-- Ideale per shopping e vita notturna
-- Tutti i servizi necessari a portata di mano
+LOCATION AND TRANSPORT:
+- Only 2 minutes walk from Milan Central Station
+- 3rd floor without elevator (light climb, easily manageable)
+- Building with quiet internal courtyard
+- Very central position but quiet thanks to double-glazed windows
+- Metro: M2 and M3 lines to reach Duomo, via Montenapoleone, Sforza Castle in less than 10 minutes
+- Direct access to metro and buses to airports
+
+AREA SERVICES:
+- Rich in services: supermarkets, shops, banks, bars, pastry shops, pizzerias, restaurants
+- Ideal for shopping and nightlife
+- All necessary services within walking distance
 
 COMFORT:
-- Perfetto per esplorare Milano o soggiorni business
-- Equilibrio perfetto tra tranquillità e comodità nel cuore di Milano
-- Massima luminosità e comfort grazie alle 4 finestre con doppia esposizione
+- Perfect for exploring Milan or business stays
+- Perfect balance between tranquility and convenience in the heart of Milan
+- Maximum brightness and comfort thanks to 4 windows with double exposure
 `;
 
 serve(async (req) => {
@@ -82,7 +84,8 @@ serve(async (req) => {
 
 BEHAVIORAL INSTRUCTIONS:
 - Always respond in English by default
-- If the user writes in Italian, you can respond in Italian
+- Detect the language the user writes in and adapt your responses to match their language
+- If user writes in Italian, respond in Italian. If user writes in English, respond in English
 - Be friendly, professional and helpful
 - Maintain a warm but informative tone
 - If you don't know something about specific accommodation details, suggest contacting the owners
