@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 import { X } from 'lucide-react';
 
 const Gallery = () => {
@@ -119,18 +119,21 @@ const Gallery = () => {
                       </div>
                     </DialogTrigger>
                     <DialogContent className="max-w-7xl w-full p-0 bg-black border-0">
+                      <DialogTitle className="sr-only">Gallery Image</DialogTitle>
+                      <DialogDescription className="sr-only">{image.alt}</DialogDescription>
                       <div className="relative">
                         <img 
                           src={image.src}
                           alt={image.alt}
                           className="w-full h-auto max-h-[90vh] object-contain"
                         />
-                        <button
-                          onClick={() => setSelectedImage(null)}
-                          className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
-                        >
-                          <X className="w-6 h-6" />
-                        </button>
+                        <DialogClose asChild>
+                          <button
+                            className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                          >
+                            <X className="w-6 h-6" />
+                          </button>
+                        </DialogClose>
                       </div>
                     </DialogContent>
                   </Dialog>
