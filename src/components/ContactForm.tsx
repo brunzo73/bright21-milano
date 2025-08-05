@@ -103,23 +103,33 @@ const ContactForm = () => {
 
       // Save booking data to Supabase
       console.log('Saving booking data to Supabase...');
+      console.log('Form data to insert:', {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        checkin: formData.checkin,
+        checkout: formData.checkout,
+        message: formData.message
+      });
+
       const { data: bookingData, error: bookingError } = await supabase
         .from('bookings')
         .insert([
           {
             name: formData.name,
             email: formData.email,
-            phone: formData.phone,
+            phone: formData.phone || null,
             checkin: formData.checkin,
             checkout: formData.checkout,
-            message: formData.message
+            message: formData.message || null
           }
         ])
         .select();
 
       if (bookingError) {
         console.error('Errore nel salvare i dati:', bookingError);
-        toast.error('Errore nel salvare i dati. Riprova più tardi.');
+        console.error('Dettaglio errore:', JSON.stringify(bookingError, null, 2));
+        toast.error(`Errore nel salvare i dati: ${bookingError.message}`);
         return;
       }
 
