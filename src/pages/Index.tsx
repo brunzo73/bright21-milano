@@ -11,9 +11,9 @@ const Index = () => {
   return (
     <div className="min-h-screen gradient-bg">
       <Hero />
-      <Services />
       <Gallery />
       <ContactForm />
+      <Services />
       <Footer />
       <Chatbot />
     </div>
