@@ -61,6 +61,34 @@ TRAVEL TIPS:
 - Check updated schedules based on your flight, especially late evening or early morning
 - Use local transport apps like Moovit or Citymapper for real-time information and best routes
 
+APARTMENT SERVICES AND AMENITIES:
+- Hot water
+- Air conditioning system (heating/cooling)
+- Hair dryer
+- Bed linen and towels provided
+- Dishwasher
+- Iron and ironing board
+- Kitchen fully equipped
+- Single floor accommodation (third floor)
+- Dedicated cooking area with refrigerator, oven and hob
+- Extra pillows and blankets available
+- Luggage storage allowed (guests can store luggage before or after check-in)
+- Essentials provided: shampoo, soap, toilet paper, towels
+- Clothes drying rack
+- Oven and microwave
+- Freezer
+- Refrigerator
+- Shower gel
+- Crutches available
+- First aid kit
+- Washing machine
+- Coffee machine (Nespresso machine available)
+- Patio or balcony (public/communal)
+- Dishes and utensils (plates, bowls, cups, cutlery and other utensils)
+- Cleaning products
+- Carbon monoxide detector (functional carbon monoxide detector - check local regulations; guests should install a working detector in the accommodation)
+- Radiator heating with split-type ductless heating system
+
 AREA SERVICES:
 - Rich in services: supermarkets, shops, banks, bars, pastry shops, pizzerias, restaurants
 - Ideal for shopping and nightlife
