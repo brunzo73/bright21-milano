@@ -37,6 +37,30 @@ LOCATION AND TRANSPORT:
 - Metro: M2 and M3 lines to reach Duomo, via Montenapoleone, Sforza Castle in less than 10 minutes
 - Direct access to metro and buses to airports
 
+✈️ AIRPORT CONNECTIONS - How to reach the apartment from all Milan airports:
+Milan is served by three main airports:
+• Malpensa (MXP) – The largest and most international
+• Linate (LIN) – The closest to the city center  
+• Orio al Serio (BGY) – Ideal for low-cost flights
+
+FROM MALPENSA AIRPORT (MXP):
+- Malpensa Express train: Direct connection from Terminals 1 and 2 to Milano Centrale in about 40 minutes (leaves you steps away from the apartment!)
+- Bus to Central Station: Various companies operate the service, journey takes about 45 minutes with frequent departures
+- Taxi or car rental: About 40 minutes travel time
+
+FROM LINATE AIRPORT (LIN):  
+- Bus line 73 (via Duomo) or direct shuttles: Connects Linate to city center in about 30 minutes, arriving near Central Station
+- Taxi or car rental: Similar duration, subject to traffic
+
+FROM ORIO AL SERIO AIRPORT (BGY):
+- Direct bus to Milano Centrale: Service operated by various companies, travel time about 1 hour
+- Taxi or car rental: Same estimated time, may vary based on traffic
+
+TRAVEL TIPS:
+- Buy tickets in advance for trains and buses (especially Malpensa Express)
+- Check updated schedules based on your flight, especially late evening or early morning
+- Use local transport apps like Moovit or Citymapper for real-time information and best routes
+
 AREA SERVICES:
 - Rich in services: supermarkets, shops, banks, bars, pastry shops, pizzerias, restaurants
 - Ideal for shopping and nightlife
