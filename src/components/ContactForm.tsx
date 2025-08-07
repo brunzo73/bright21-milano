@@ -232,8 +232,9 @@ const ContactForm = () => {
                   </div>
                   
                   <div className="mb-2">
+                    <span className="text-sm text-gray-500">Starting from</span>
                     <div className="mt-1">
-                      <span className="text-2xl font-bold text-gray-800">starting from €35</span>
+                      <span className="text-4xl font-bold text-amber-600">€35</span>
                       <span className="text-lg text-gray-600 block">per night per person</span>
                     </div>
                   </div>
