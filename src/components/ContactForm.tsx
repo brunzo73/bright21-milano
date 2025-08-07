@@ -233,8 +233,8 @@ const ContactForm = () => {
                   
                   <div className="mb-2">
                     <div className="mt-1">
-                      <span className="text-2xl font-bold text-gray-800">a partire da €35</span>
-                      <span className="text-lg text-gray-600 block">per notte a persona</span>
+                      <span className="text-2xl font-bold text-gray-800">starting from €35</span>
+                      <span className="text-lg text-gray-600 block">per night per person</span>
                     </div>
                   </div>
                   
