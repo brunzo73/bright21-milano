@@ -43,14 +43,18 @@ const Hero = () => {
   };
 
   const handleAdminClick = () => {
-    setAdminClicks(prev => prev + 1);
-    if (adminClicks >= 4) {
+    const newCount = adminClicks + 1;
+    setAdminClicks(newCount);
+    
+    console.log('Admin clicks:', newCount); // Debug log
+    
+    if (newCount >= 5) {
       navigate('/admin-login');
       setAdminClicks(0);
     }
     
-    // Reset counter after 5 seconds of inactivity
-    setTimeout(() => setAdminClicks(0), 5000);
+    // Reset counter after 3 seconds of inactivity
+    setTimeout(() => setAdminClicks(0), 3000);
   };
 
   return (
@@ -58,8 +62,9 @@ const Hero = () => {
       {/* Hidden Admin Button */}
       <button
         onClick={handleAdminClick}
-        className="absolute top-4 right-4 z-20 w-8 h-8 opacity-0 hover:opacity-20 transition-opacity duration-300"
+        className="absolute top-4 right-4 z-20 w-10 h-10 opacity-0 hover:opacity-30 transition-opacity duration-300 bg-white/10 rounded-full flex items-center justify-center"
         aria-label="Admin Access"
+        title="Clicca 5 volte per accedere all'admin"
       >
         <Settings className="w-6 h-6 text-white" />
       </button>
