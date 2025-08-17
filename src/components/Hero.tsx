@@ -1,8 +1,40 @@
 
-import React from 'react';
-import { MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const [heroImage, setHeroImage] = useState<string>('/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png');
+  const [adminClicks, setAdminClicks] = useState(0);
+
+  useEffect(() => {
+    // Fetch hero image from database
+    const fetchHeroImage = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('site_images')
+          .select('file_path')
+          .eq('image_type', 'hero')
+          .order('display_order', { ascending: true })
+          .limit(1)
+          .single();
+
+        if (data && !error) {
+          const { data: imageData } = supabase.storage
+            .from('admin-images')
+            .getPublicUrl(data.file_path);
+          setHeroImage(imageData.publicUrl);
+        }
+      } catch (error) {
+        console.log('Using fallback hero image');
+      }
+    };
+
+    fetchHeroImage();
+  }, []);
+
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
     contactSection?.scrollIntoView({
@@ -10,11 +42,31 @@ const Hero = () => {
     });
   };
 
+  const handleAdminClick = () => {
+    setAdminClicks(prev => prev + 1);
+    if (adminClicks >= 4) {
+      navigate('/admin-login');
+      setAdminClicks(0);
+    }
+    
+    // Reset counter after 5 seconds of inactivity
+    setTimeout(() => setAdminClicks(0), 5000);
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Hidden Admin Button */}
+      <button
+        onClick={handleAdminClick}
+        className="absolute top-4 right-4 z-20 w-8 h-8 opacity-0 hover:opacity-20 transition-opacity duration-300"
+        aria-label="Admin Access"
+      >
+        <Settings className="w-6 h-6 text-white" />
+      </button>
+
       <div className="absolute inset-0 z-0">
         <img 
-          src="/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png" 
+          src={heroImage} 
           alt="Bright 21 Central Station apartment interior" 
           className="w-full h-full object-cover" 
         />

@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -10,13 +10,22 @@ import {
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 import { X } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface GalleryImage {
+  src: string;
+  alt: string;
+}
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const images = [
+  // Fallback images in case no admin images are uploaded
+  const fallbackImages: GalleryImage[] = [
     // Main image (cover) - already used in hero
     {
       src: "/lovable-uploads/7353437d-1677-46df-af2a-f9e3936200c6.png",
@@ -72,6 +81,36 @@ const Gallery = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchGalleryImages = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('site_images')
+          .select('file_path, alt_text')
+          .eq('image_type', 'gallery')
+          .order('display_order', { ascending: true });
+
+        if (data && data.length > 0) {
+          const galleryImages = data.map(img => ({
+            src: supabase.storage.from('admin-images').getPublicUrl(img.file_path).data.publicUrl,
+            alt: img.alt_text || 'Gallery image'
+          }));
+          setImages(galleryImages);
+        } else {
+          // Use fallback images if no admin images are found
+          setImages(fallbackImages);
+        }
+      } catch (error) {
+        console.log('Using fallback images');
+        setImages(fallbackImages);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryImages();
+  }, []);
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -89,6 +128,20 @@ const Gallery = () => {
       api.scrollTo(index);
     }
   }, [api]);
+
+  if (loading) {
+    return (
+      <section className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
+              Caricamento galleria...
+            </h2>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
