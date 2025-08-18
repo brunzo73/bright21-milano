@@ -85,14 +85,6 @@ const AdminLogin = () => {
               {loading ? "Accesso in corso..." : "Accedi"}
             </Button>
           </form>
-          
-          <div className="mt-6 p-3 bg-muted rounded-lg">
-            <p className="text-sm text-muted-foreground text-center">
-              <strong>Credenziali:</strong><br />
-              Username: admin<br />
-              Password: admin
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>
