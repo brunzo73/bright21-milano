@@ -141,6 +141,7 @@ const AdminPanel = () => {
 
   const fetchImages = async () => {
     try {
+      console.log('Fetching images from database...');
       const { data, error } = await supabase
         .from('site_images')
         .select('*')
@@ -157,6 +158,7 @@ const AdminPanel = () => {
         return;
       }
 
+      console.log('Images fetched:', data);
       setImages((data || []) as SiteImage[]);
     } catch (error) {
       console.error('Error:', error);
