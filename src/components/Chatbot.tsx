@@ -28,12 +28,32 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToNewMessage = () => {
+    // Se l'ultimo messaggio è del bot e ci sono almeno 2 messaggi
+    if (messages.length >= 2 && messages[messages.length - 1].isBot) {
+      // Trova l'ultimo messaggio del bot
+      const lastBotMessageIndex = messages.length - 1;
+      const messagesContainer = messagesEndRef.current?.parentElement;
+      
+      if (messagesContainer) {
+        // Calcola la posizione dell'ultimo messaggio del bot
+        const messageElements = messagesContainer.querySelectorAll('[data-message-index]');
+        const lastBotMessageElement = messageElements[lastBotMessageIndex] as HTMLElement;
+        
+        if (lastBotMessageElement) {
+          // Scroll all'inizio del messaggio del bot invece che alla fine
+          lastBotMessageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+      }
+    }
+    
+    // Fallback: scroll normale alla fine per messaggi utente o caso di default
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToNewMessage();
   }, [messages]);
 
   const sendMessage = async () => {
@@ -131,9 +151,10 @@ const Chatbot = () => {
           {/* Messages */}
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
-              {messages.map((message) => (
+              {messages.map((message, index) => (
                 <div
                   key={message.id}
+                  data-message-index={index}
                   className={`flex gap-2 ${message.isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   {message.isBot && (
