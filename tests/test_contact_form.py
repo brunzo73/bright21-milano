@@ -64,7 +64,7 @@ class ContactFormTests(unittest.TestCase):
             page.locator('#checkin').fill(str(date.today() + timedelta(days=10)))
             page.locator('#checkout').fill(str(date.today() + timedelta(days=12)))
             page.locator('#privacy').click()
-            page.locator('input[name="_honey"]').evaluate('(el) => { el.value = "bot"; el.dispatchEvent(new Event("input", { bubbles: true })); }')
+            page.locator('input[name="_honey"]').evaluate('(el) => { const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set; setter.call(el, "bot"); el.dispatchEvent(new Event("input", { bubbles: true })); }')
             page.get_by_role('button', name='Check Availability', exact=True).click()
             page.wait_for_timeout(1500)
             self.assertEqual(bookings, [])
