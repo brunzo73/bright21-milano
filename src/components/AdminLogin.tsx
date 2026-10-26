@@ -16,23 +16,22 @@ const AdminLogin = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    // Simple authentication check
-    if (credentials.username === 'admin' && credentials.password === 'admin') {
-      sessionStorage.setItem('admin_authenticated', 'true');
-      toast({
-        title: "Accesso effettuato",
-        description: "Benvenuto nel pannello admin",
-      });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: credentials.username.trim(),
+      password: credentials.password,
+    });
+    let ok = false;
+    if (!error && data.user) {
+      const { data: role } = await supabase.rpc('has_role', { _user_id: data.user.id, _role: 'admin' });
+      ok = role === true;
+      if (!ok) await supabase.auth.signOut();
+    }
+    if (ok) {
+      toast({ title: "Accesso effettuato", description: "Benvenuto nel pannello admin" });
       navigate('/admin');
     } else {
-      toast({
-        title: "Credenziali non valide",
-        description: "Username o password errati",
-        variant: "destructive",
-      });
+      toast({ title: "Credenziali non valide", description: "Email o password errati, o account non admin", variant: "destructive" });
     }
-
     setLoading(false);
   };
 
