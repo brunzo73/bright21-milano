@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Star, Users, Shield, RefreshCw } from 'lucide-react';
+import { Star, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const ContactForm = () => {
@@ -23,42 +23,12 @@ const ContactForm = () => {
 
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [captcha, setCaptcha] = useState({ 
-    question: '', 
-    answer: '', 
-    userAnswer: '', 
-    options: [] as string[] 
-  });
-
-  // Generate a new captcha question
-  const generateCaptcha = () => {
-    const questions = [
-      { question: 'What color is the sky?', answer: 'blue', options: ['red', 'blue', 'green', 'yellow'] },
-      { question: 'How many legs does a cat have?', answer: '4', options: ['2', '4', '6', '8'] },
-      { question: 'What is 2 + 2?', answer: '4', options: ['3', '4', '5', '6'] },
-      { question: 'Which animal says "meow"?', answer: 'cat', options: ['dog', 'cat', 'bird', 'fish'] },
-      { question: 'What comes after Monday?', answer: 'tuesday', options: ['sunday', 'tuesday', 'friday', 'saturday'] },
-      { question: 'How many days in a week?', answer: '7', options: ['5', '6', '7', '8'] }
-    ];
-    
-    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-    const shuffledOptions = [...randomQuestion.options].sort(() => Math.random() - 0.5);
-    
-    setCaptcha({
-      question: randomQuestion.question,
-      answer: randomQuestion.answer.toLowerCase(),
-      userAnswer: '',
-      options: shuffledOptions
-    });
-  };
-
-  useEffect(() => {
-    generateCaptcha();
-  }, []);
+  const [honeypot, setHoneypot] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    if (honeypot) { setIsSubmitting(false); return; }
     
     try {
       // Validations
@@ -101,12 +71,6 @@ const ContactForm = () => {
         return;
       }
 
-      if (captcha.userAnswer.toLowerCase() !== captcha.answer) {
-        toast.error('Incorrect captcha answer. Please try again.');
-        generateCaptcha();
-        return;
-      }
-
       // Save booking data to Supabase
       const { error: bookingError } = await supabase
         .from('bookings')
@@ -140,6 +104,7 @@ const ContactForm = () => {
             _cc: 'lorenzo.vigo@gmail.com',
             _template: 'table',
             _captcha: 'false',
+            _honey: honeypot,
             _replyto: formData.email,
             _autoresponse: 'Thank you for your booking request at Bright 21 Central Station! We have received your request and will confirm availability and pricing within 24 hours.',
             Name: formData.name,
@@ -176,7 +141,6 @@ const ContactForm = () => {
         message: ''
       });
       setPrivacyConsent(false);
-      generateCaptcha();
 
     } catch (error) {
       console.error('Booking request failed');
@@ -190,13 +154,6 @@ const ContactForm = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
-    });
-  };
-
-  const handleCaptchaChange = (value: string) => {
-    setCaptcha({
-      ...captcha,
-      userAnswer: value
     });
   };
 
@@ -328,8 +285,6 @@ const ContactForm = () => {
                 >
                   <option value="1">1 guest</option>
                   <option value="2">2 guests</option>
-                  <option value="3">3 guests</option>
-                  <option value="4">4 guests</option>
                 </select>
               </div>
 
@@ -382,41 +337,7 @@ const ContactForm = () => {
                 />
               </div>
 
-              {/* Captcha */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Label className="text-gray-700 font-medium text-sm sm:text-base flex items-center">
-                    <Shield className="w-4 h-4 mr-2" />
-                    Security Verification: {captcha.question} *
-                  </Label>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={generateCaptcha}
-                    className="flex items-center gap-1"
-                  >
-                    <RefreshCw className="w-3 h-3" />
-                    New Question
-                  </Button>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {captcha.options.map((option, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => handleCaptchaChange(option)}
-                      className={`p-3 border-2 rounded-lg text-center transition-all ${
-                        captcha.userAnswer === option
-                          ? 'border-amber-400 bg-amber-50 text-amber-800'
-                          : 'border-gray-200 hover:border-amber-300'
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <input type="text" name="_honey" tabIndex={-1} autoComplete="off" style={{ display: 'none' }} value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
 
               {/* Privacy Checkbox */}
               <div className="flex items-start space-x-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
