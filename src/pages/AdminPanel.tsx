@@ -130,13 +130,14 @@ const AdminPanel = () => {
 
   useEffect(() => {
     // Check if user is authenticated
-    const isAuthenticated = sessionStorage.getItem('admin_authenticated');
-    if (!isAuthenticated) {
-      navigate('/');
-      return;
-    }
-    
-    fetchImages();
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { navigate('/admin-login'); return; }
+      const { data: isAdmin } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
+      if (isAdmin !== true) { await supabase.auth.signOut(); navigate('/admin-login'); return; }
+      fetchImages();
+    };
+    checkAdmin();
   }, [navigate]);
 
   const fetchImages = async () => {
@@ -391,8 +392,8 @@ const AdminPanel = () => {
     return data.publicUrl;
   };
 
-  const logout = () => {
-    sessionStorage.removeItem('admin_authenticated');
+  const logout = async () => {
+    await supabase.auth.signOut();
     navigate('/');
   };
 

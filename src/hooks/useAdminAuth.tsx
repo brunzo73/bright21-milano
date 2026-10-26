@@ -1,28 +1,27 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 export const useAdminAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = () => {
-      const authStatus = sessionStorage.getItem('admin_authenticated');
-      setIsAuthenticated(authStatus === 'true');
+    const check = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setIsAdmin(false); setLoading(false); return; }
+      const { data } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
+      setIsAdmin(data === true);
       setLoading(false);
     };
-
-    checkAuth();
+    check();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => { setTimeout(check, 0); });
+    return () => sub.subscription.unsubscribe();
   }, []);
 
-  const login = () => {
-    sessionStorage.setItem('admin_authenticated', 'true');
-    setIsAuthenticated(true);
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setIsAdmin(false);
   };
 
-  const logout = () => {
-    sessionStorage.removeItem('admin_authenticated');
-    setIsAuthenticated(false);
-  };
-
-  return { isAuthenticated, loading, login, logout };
+  return { isAuthenticated: isAdmin, isAdmin, loading, logout };
 };
