@@ -80,7 +80,7 @@ const Hero = () => {
           </div>
           
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-2">
-            Bright 32 sqm apartment on the third floor, with four windows providing natural light all day. Strategic location to explore Milan or for business stays!
+            Bright 32 sqm apartment on the third floor, with four windows providing natural light all day. Strategic location to explore Milan or for business stays.
           </p>
           
           <button onClick={scrollToContact} className="btn-primary text-base sm:text-lg md:text-xl px-6 sm:px-8">
