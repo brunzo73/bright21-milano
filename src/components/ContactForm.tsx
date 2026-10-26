@@ -15,6 +15,7 @@ const ContactForm = () => {
     name: '',
     email: '',
     phone: '',
+    guests: '2',
     checkin: '',
     checkout: '',
     message: ''
@@ -61,6 +62,11 @@ const ContactForm = () => {
     
     try {
       // Validations
+      if (!formData.name.trim()) {
+        toast.error('Full name is required');
+        return;
+      }
+
       if (!formData.email) {
         toast.error('Email is required');
         return;
@@ -76,7 +82,7 @@ const ContactForm = () => {
       const checkoutDate = new Date(formData.checkout);
       
       if (checkinDate >= checkoutDate) {
-        toast.error('La data di check-in deve essere precedente alla data di check-out');
+        toast.error('Check-in must be before check-out');
         return;
       }
 
@@ -86,7 +92,7 @@ const ContactForm = () => {
       checkinDate.setHours(0, 0, 0, 0);
       
       if (checkinDate < today) {
-        toast.error('La data di check-in non può essere nel passato');
+        toast.error('Check-in cannot be in the past');
         return;
       }
 
@@ -102,17 +108,7 @@ const ContactForm = () => {
       }
 
       // Save booking data to Supabase
-      console.log('Saving booking data to Supabase...');
-      console.log('Form data to insert:', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        checkin: formData.checkin,
-        checkout: formData.checkout,
-        message: formData.message
-      });
-
-      const { data: bookingData, error: bookingError } = await supabase
+      const { error: bookingError } = await supabase
         .from('bookings')
         .insert([
           {
@@ -121,59 +117,60 @@ const ContactForm = () => {
             phone: formData.phone || null,
             checkin: formData.checkin,
             checkout: formData.checkout,
-            message: formData.message || null
+            message: `Guests: ${formData.guests}${formData.message ? `\n${formData.message}` : ''}`
           }
-        ])
-        .select();
+        ]);
 
       if (bookingError) {
-        console.error('Errore nel salvare i dati:', bookingError);
-        console.error('Dettaglio errore:', JSON.stringify(bookingError, null, 2));
-        toast.error(`Errore nel salvare i dati: ${bookingError.message}`);
+        console.error('Unable to save booking:', bookingError.code);
+        toast.error('Unable to save your booking request. Please try again.');
         return;
       }
 
-      console.log('Booking saved successfully:', bookingData);
+      // Email delivery must not invalidate an already saved booking.
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/alebresci75@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: `Nuova richiesta informazioni per casetta Milano da ${formData.checkin} a ${formData.checkout}`,
+            _cc: 'lorenzo.vigo@gmail.com',
+            _template: 'table',
+            _captcha: 'false',
+            _replyto: formData.email,
+            _autoresponse: 'Thank you for your booking request at Bright 21 Central Station! We have received your request and will confirm availability and pricing within 24 hours.',
+            Name: formData.name,
+            Email: formData.email,
+            Phone: formData.phone,
+            Guests: formData.guests,
+            'Check-in': formData.checkin,
+            'Check-out': formData.checkout,
+            Message: formData.message
+          }),
+          signal: AbortSignal.timeout(15000)
+        });
+        if (!response.ok) {
+          throw new Error('Email service rejected the request');
+        }
+        const result = await response.json();
+        if (result.success !== true && result.success !== 'true') {
+          throw new Error('Email service did not accept the request');
+        }
+      } catch {
+        console.warn('Booking saved, but email delivery could not be confirmed.');
+      }
 
-      // Create form data for FormSubmit
-      const form = document.createElement('form');
-      form.action = 'https://formsubmit.co/alebresci75@gmail.com';
-      form.method = 'POST';
-      form.style.display = 'none';
-
-      // Add form fields
-      const fields = [
-        { name: '_subject', value: `Nuova richiesta prenotazione Casetta Milano` },
-        { name: '_cc', value: 'lorenzo.vigo@gmail.com' },
-        { name: '_template', value: 'table' },
-        { name: '_captcha', value: 'false' },
-        { name: 'name', value: formData.name },
-        { name: 'email', value: formData.email },
-        { name: 'phone', value: formData.phone },
-        { name: 'checkin', value: formData.checkin },
-        { name: 'checkout', value: formData.checkout },
-        { name: 'message', value: formData.message }
-      ];
-
-      fields.forEach(field => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = field.name;
-        input.value = field.value;
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      toast.success('Richiesta inviata con successo! Ti contatteremo presto.');
+      toast.success('Booking request sent! Check your email — we will confirm within 24 hours.');
       
       // Reset form
       setFormData({
         name: '',
         email: '',
         phone: '',
+        guests: '2',
         checkin: '',
         checkout: '',
         message: ''
@@ -182,14 +179,14 @@ const ContactForm = () => {
       generateCaptcha();
 
     } catch (error) {
-      console.error('Errore nell\'invio:', error);
-      toast.error('Errore nell\'invio della richiesta. Riprova più tardi.');
+      console.error('Booking request failed');
+      toast.error('Unable to send your request. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -280,6 +277,7 @@ const ContactForm = () => {
                     type="text" 
                     value={formData.name} 
                     onChange={handleChange} 
+                    required
                     className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
                     placeholder="Your full name" 
                   />
@@ -315,6 +313,24 @@ const ContactForm = () => {
                   className="border-amber-200 focus:border-amber-400 focus:ring-amber-400 text-sm sm:text-base" 
                   placeholder="+39 123 456 7890" 
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="guests" className="font-medium text-sm sm:text-base">
+                  Number of Guests
+                </Label>
+                <select
+                  id="guests"
+                  name="guests"
+                  value={formData.guests}
+                  onChange={handleChange}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm sm:text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="1">1 guest</option>
+                  <option value="2">2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -428,7 +444,7 @@ const ContactForm = () => {
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                   disabled={!privacyConsent || isSubmitting}
                 >
-                  {isSubmitting ? 'Invio in corso...' : 'Check Availability'}
+                  {isSubmitting ? 'Sending...' : 'Check Availability'}
                 </Button>
               </div>
             </form>
