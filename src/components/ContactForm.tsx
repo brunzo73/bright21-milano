@@ -8,7 +8,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Star, Users } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -71,61 +70,37 @@ const ContactForm = () => {
         return;
       }
 
-      // Save booking data to Supabase
-      const { error: bookingError } = await supabase
-        .from('bookings')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone || null,
-            checkin: formData.checkin,
-            checkout: formData.checkout,
-            message: `Guests: ${formData.guests}${formData.message ? `\n${formData.message}` : ''}`
-          }
-        ]);
-
-      if (bookingError) {
-        console.error('Unable to save booking:', bookingError.code);
-        toast.error('Unable to save your booking request. Please try again.');
-        return;
+      // Submit the request through FormSubmit (delivery to both inboxes).
+      const response = await fetch('https://formsubmit.co/ajax/alebresci75@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `Nuova richiesta informazioni per casetta Milano da ${formData.checkin} a ${formData.checkout}`,
+          _cc: 'lorenzo.vigo@gmail.com',
+          _template: 'table',
+          _captcha: 'false',
+          _honey: honeypot,
+          _replyto: formData.email,
+          _autoresponse: 'Thank you for your booking request at Bright 21 Central Station! We have received your request and will confirm availability and pricing within 24 hours.',
+          Name: formData.name,
+          Email: formData.email,
+          Phone: formData.phone,
+          Guests: formData.guests,
+          'Check-in': formData.checkin,
+          'Check-out': formData.checkout,
+          Message: formData.message
+        }),
+        signal: AbortSignal.timeout(15000)
+      });
+      if (!response.ok) {
+        throw new Error('Email service rejected the request');
       }
-
-      // Email delivery must not invalidate an already saved booking.
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/alebresci75@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
-          body: JSON.stringify({
-            _subject: `Nuova richiesta informazioni per casetta Milano da ${formData.checkin} a ${formData.checkout}`,
-            _cc: 'lorenzo.vigo@gmail.com',
-            _template: 'table',
-            _captcha: 'false',
-            _honey: honeypot,
-            _replyto: formData.email,
-            _autoresponse: 'Thank you for your booking request at Bright 21 Central Station! We have received your request and will confirm availability and pricing within 24 hours.',
-            Name: formData.name,
-            Email: formData.email,
-            Phone: formData.phone,
-            Guests: formData.guests,
-            'Check-in': formData.checkin,
-            'Check-out': formData.checkout,
-            Message: formData.message
-          }),
-          signal: AbortSignal.timeout(15000)
-        });
-        if (!response.ok) {
-          throw new Error('Email service rejected the request');
-        }
-        const result = await response.json();
-        if (result.success !== true && result.success !== 'true') {
-          throw new Error('Email service did not accept the request');
-        }
-      } catch {
-        console.warn('Booking saved, but email delivery could not be confirmed.');
+      const result = await response.json();
+      if (result.success !== true && result.success !== 'true') {
+        throw new Error('Email service did not accept the request');
       }
 
       toast.success('Booking request sent! Check your email — we will confirm within 24 hours.');
