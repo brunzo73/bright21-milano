@@ -108,22 +108,22 @@ const BookingInfo = () => {
               <div className="flex items-start gap-3 bg-white rounded-xl p-3 border border-gray-200">
                 <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-700">Bank Transfer</p>
+                  <p className="text-sm font-semibold text-gray-700">Bank Transfer (Bonifico)</p>
                   <p className="text-xs text-gray-500">IBAN provided at booking confirmation</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-white rounded-xl p-3 border border-gray-200">
                 <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-700">Cash on Arrival</p>
-                  <p className="text-xs text-gray-500">Available for verified bookings</p>
+                  <p className="text-sm font-semibold text-gray-700">Revolut</p>
+                  <p className="text-xs text-gray-500">Fast transfer, details at confirmation</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-white rounded-xl p-3 border border-gray-200">
                 <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-700">Other Methods</p>
-                  <p className="text-xs text-gray-500">Agreed at booking confirmation</p>
+                  <p className="text-sm font-semibold text-gray-700">PayPal</p>
+                  <p className="text-xs text-gray-500">Details provided at booking confirmation</p>
                 </div>
               </div>
 
