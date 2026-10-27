@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,6 +23,42 @@ const ContactForm = () => {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState('');
+  const [occupiedRanges, setOccupiedRanges] = useState<{ start: string; end: string }[]>([]);
+  const [calendarSynced, setCalendarSynced] = useState(false);
+
+  const AIRBNB_ICAL = 'https://www.airbnb.it/calendar/ical/838297807993191673.ics?t=92a68c435ac2474d80e344233c04b281';
+
+  useEffect(() => {
+    const fetchCalendar = async () => {
+      try {
+        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(AIRBNB_ICAL)}`;
+        const res = await fetch(proxy, { signal: AbortSignal.timeout(10000) });
+        if (!res.ok) return;
+        const text = await res.text();
+        const blocks = text.match(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g) || [];
+        const events: { start: string; end: string }[] = [];
+        for (const block of blocks) {
+          const s = block.match(/DTSTART[^:]*:(\d{8})/);
+          const e = block.match(/DTEND[^:]*:(\d{8})/);
+          if (s && e) {
+            const fmt = (d: string) => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`;
+            events.push({ start: fmt(s[1]), end: fmt(e[1]) });
+          }
+        }
+        setOccupiedRanges(events);
+        if (events.length > 0) setCalendarSynced(true);
+      } catch {
+        // Silent fail — form still works without live calendar data
+      }
+    };
+    fetchCalendar();
+  }, []);
+
+  const datesOverlapOccupied = (cin: string, cout: string): boolean => {
+    const a = new Date(cin);
+    const b = new Date(cout);
+    return occupiedRanges.some(r => a < new Date(r.end) && b > new Date(r.start));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +88,12 @@ const ContactForm = () => {
       
       if (checkinDate >= checkoutDate) {
         toast.error('Check-in must be before check-out');
+        return;
+      }
+
+      // Check against live Airbnb calendar
+      if (occupiedRanges.length > 0 && datesOverlapOccupied(formData.checkin, formData.checkout)) {
+        toast.error('These dates are already booked. Please choose different dates or contact us.');
         return;
       }
 
@@ -262,6 +304,12 @@ const ContactForm = () => {
                   <option value="2">2 guests</option>
                 </select>
               </div>
+
+              {calendarSynced && (
+                <p className="text-xs text-green-600 flex items-center gap-1">
+                  <span>✓</span> Calendar synced with Airbnb — unavailable dates are automatically blocked
+                </p>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">

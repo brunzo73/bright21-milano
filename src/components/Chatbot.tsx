@@ -116,6 +116,41 @@ const getResponse = (msg: string): string => {
       ? "Per verificare la disponibilità e prenotare, compila il form di prenotazione su questa pagina. Confermiamo entro 24 ore! 😊"
       : "To check availability and book, please use the booking form on this page. We confirm within 24 hours! 😊";
 
+  if (/cancell|rimborso|refund|annull|disdetta/.test(m))
+    return it
+      ? "Politica di cancellazione: per soggiorni brevi è moderata — rimborso completo se cancelli entro 48h dalla prenotazione E almeno 14 giorni prima del check-in. Per soggiorni lunghi è semi-flessibile. Per i dettagli precisi sul tuo soggiorno, compila il form e ti risponderemo! 📋"
+      : "Cancellation policy: for short stays it's moderate — full refund if you cancel within 48h of booking AND at least 14 days before check-in. For longer stays, semi-flexible policy applies. Fill the booking form for details specific to your stay! 📋";
+
+  if (/pagam|payment|pay|bonifico|transfer|cash|contanti|metodo|come pago/.test(m))
+    return it
+      ? "I dettagli e le modalità di pagamento vengono comunicati alla conferma della prenotazione. Il pagamento avviene prima del check-in. Per qualsiasi informazione, compila il form e ti risponderemo entro 24 ore! 💳"
+      : "Payment details and methods are shared upon booking confirmation. Payment is required before check-in. Fill the booking form and we'll get back to you within 24 hours! 💳";
+
+  if (/animali|pets|cane|gatto|dog|cat|pet/.test(m))
+    return it
+      ? "Purtroppo l'appartamento non accetta animali domestici. 🐾 Ci scusiamo per l'inconveniente!"
+      : "Unfortunately the apartment does not accept pets. 🐾 We apologize for the inconvenience!";
+
+  if (/fum|smok|sigarett|cigarett/.test(m))
+    return it
+      ? "L'appartamento è rigorosamente vietato fumare, sia all'interno che nelle aree comuni. 🚭"
+      : "The apartment is strictly non-smoking, both inside and in the common areas. 🚭";
+
+  if (/deposit|caparra|cauzione|security deposit/.test(m))
+    return it
+      ? "Non richiediamo una caparra separata per i soggiorni brevi. Eventuali dettagli aggiuntivi vengono comunicati alla conferma della prenotazione."
+      : "We do not require a separate security deposit for short stays. Any additional details are communicated upon booking confirmation.";
+
+  if (/silenz|rumore|noise|quiet|orari|regole|rules/.test(m))
+    return it
+      ? "Chiediamo di rispettare il silenzio dalle 22:00 alle 8:00 per non disturbare i vicini. L'edificio ha un tranquillo cortile interno — ambiente sereno garantito! 🌙"
+      : "We ask guests to observe quiet hours from 10 PM to 8 AM out of respect for neighbors. The building has a quiet inner courtyard — peaceful environment guaranteed! 🌙";
+
+  if (/minimum|minimo|durata|how long|quante notti|notti minimo/.test(m))
+    return it
+      ? "Il soggiorno minimo è di 1 notte, massimo 28 notti. Accogliamo soggiorni di qualsiasi durata! Per date specifiche usa il form di prenotazione."
+      : "Minimum stay is 1 night, maximum 28 nights. We welcome stays of any length! Use the booking form for specific dates.";
+
   return it
     ? "Ottima domanda! Per informazioni più dettagliate puoi compilare il form di prenotazione e ti risponderemo personalmente. Di solito rispondiamo entro poche ore! 😊"
     : "Great question! For more details, use the booking form and we'll answer everything personally. We usually reply within a few hours! 😊";
@@ -123,14 +158,17 @@ const getResponse = (msg: string): string => {
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const isIt = typeof navigator !== 'undefined' && navigator.language?.startsWith('it');
+    return [{
       id: '1',
-      text: "Hello! I'm Milo, your virtual assistant for this comfortable Milan apartment. How can I help you? You can ask me about the location, transport, area services, or apartment features!",
+      text: isIt
+        ? "Ciao! Sono Milo 👋 L'assistente virtuale di Bright 21. Come posso aiutarti? Puoi chiedermi di posizione, check-in, servizi, prezzi, cancellazioni o qualsiasi altra cosa sull'appartamento!"
+        : "Hello! I'm Milo 👋 The virtual assistant for Bright 21. How can I help you? Ask me about the location, check-in, amenities, pricing, cancellations or anything about the apartment!",
       isBot: true,
       timestamp: new Date()
-    }
-  ]);
+    }];
+  });
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
