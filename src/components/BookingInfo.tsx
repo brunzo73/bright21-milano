@@ -69,27 +69,23 @@ const BookingInfo = () => {
 
             <div className="space-y-4">
               <div>
-                <p className="text-sm font-semibold text-gray-700 mb-2">Short stays (1–28 nights) — Moderate</p>
+                <p className="text-sm font-semibold text-gray-700 mb-2">Short stays — Moderate policy</p>
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2 text-sm text-gray-600">
                     <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span><strong>Full refund</strong> if cancelled within 48h of booking AND at least 14 days before check-in</span>
+                    <span><strong>Full refund</strong> if cancelled at least 5 days before check-in</span>
                   </li>
                   <li className="flex items-start gap-2 text-sm text-gray-600">
                     <CheckCircle className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                    <span><strong>50% refund</strong> if cancelled at least 5 days before check-in</span>
-                  </li>
-                  <li className="flex items-start gap-2 text-sm text-gray-600">
-                    <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                    <span><strong>No refund</strong> if cancelled less than 5 days before check-in</span>
+                    <span><strong>Partial refund</strong> if cancelled within 5 days of check-in</span>
                   </li>
                 </ul>
               </div>
 
               <div className="border-t border-gray-200 pt-4">
-                <p className="text-sm font-semibold text-gray-700 mb-1">Long stays (&gt;28 nights) — Semi-flexible</p>
+                <p className="text-sm font-semibold text-gray-700 mb-1">Long stays — Semi-flexible policy</p>
                 <p className="text-sm text-gray-600">
-                  Full refund if cancelled at least 30 days before check-in. Partial refund for later cancellations. Details provided with the booking confirmation.
+                  Full refund if cancelled at least 30 days before check-in. Partial refund for later cancellations. Details provided with booking confirmation.
                 </p>
               </div>
             </div>

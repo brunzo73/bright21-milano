@@ -118,8 +118,8 @@ const getResponse = (msg: string): string => {
 
   if (/cancell|rimborso|refund|annull|disdetta/.test(m))
     return it
-      ? "Politica di cancellazione: per soggiorni brevi è moderata — rimborso completo se cancelli entro 48h dalla prenotazione E almeno 14 giorni prima del check-in. Per soggiorni lunghi è semi-flessibile. Per i dettagli precisi sul tuo soggiorno, compila il form e ti risponderemo! 📋"
-      : "Cancellation policy: for short stays it's moderate — full refund if you cancel within 48h of booking AND at least 14 days before check-in. For longer stays, semi-flexible policy applies. Fill the booking form for details specific to your stay! 📋";
+      ? "Politica di cancellazione (Moderata): rimborso completo se cancelli almeno 5 giorni prima del check-in; rimborso parziale se cancelli entro i 5 giorni dal check-in. Per soggiorni lunghi si applica la politica semi-flessibile. 📋"
+      : "Cancellation policy (Moderate): full refund if cancelled at least 5 days before check-in; partial refund if cancelled within 5 days of check-in. For long stays, semi-flexible policy applies. 📋";
 
   if (/pagam|payment|pay|bonifico|transfer|cash|contanti|metodo|come pago/.test(m))
     return it
