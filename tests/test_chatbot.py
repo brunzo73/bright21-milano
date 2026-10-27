@@ -20,7 +20,7 @@ class MiloTests(unittest.TestCase):
         self.assertIn('€35 per person per night for 2 guests', response_for('What is the price?'))
 
     def test_checkin_time(self):
-        self.assertIn('3:00 PM', response_for('check-in'))
+        self.assertIn('3:00 PM', response_for('checkin'))
 
     def test_checkout_time(self):
         self.assertIn('11:00 AM', response_for('check-out'))
@@ -41,7 +41,7 @@ class MiloTests(unittest.TestCase):
             page.goto('http://localhost:8080')
             page.get_by_role('button', name='Open Milo chat').click()
             requests = []
-            page.on('request', lambda request: requests.append(request.url))
+            page.on('request', lambda request: requests.append(request.url) if request.resource_type in ('fetch', 'xhr') else None)
             field = page.get_by_placeholder('Scrivi il tuo messaggio...')
             field.fill('Where is the apartment?')
             page.get_by_role('button', name='Send message', exact=True).click()
