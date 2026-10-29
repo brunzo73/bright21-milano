@@ -41,7 +41,7 @@ const Index = () => {
           className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white font-semibold px-6 py-3.5 rounded-full shadow-2xl shadow-amber-400/40 hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base whitespace-nowrap"
         >
           <CalendarCheck className="w-4 h-4 sm:w-5 sm:h-5" />
-          Verifica disponibilità
+          Check Availability
         </a>
       </div>
     </div>
