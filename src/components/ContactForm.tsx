@@ -112,37 +112,30 @@ const ContactForm = () => {
         return;
       }
 
-      // Submit the request through FormSubmit (delivery to both inboxes).
-      const response = await fetch('https://formsubmit.co/ajax/ee1679c9e0aba116fff2581d24bd678e', {
+      // Submit via Netlify Forms
+      const encode = (data: Record<string, string>) =>
+        Object.keys(data)
+          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
+          .join('&');
+
+      const response = await fetch('/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `Nuova richiesta informazioni per casetta Milano da ${formData.checkin} a ${formData.checkout}`,
-          _cc: 'lorenzo.vigo@gmail.com',
-          _template: 'table',
-          _captcha: 'false',
-          _honey: honeypot,
-          _replyto: formData.email,
-          _autoresponse: 'Thank you for your booking request at Bright 21 Central Station! We have received your request and will confirm availability and pricing within 24 hours.',
-          Name: formData.name,
-          Email: formData.email,
-          Phone: formData.phone,
-          Guests: formData.guests,
-          'Check-in': formData.checkin,
-          'Check-out': formData.checkout,
-          Message: formData.message
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          'form-name': 'booking',
+          'bot-field': honeypot,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          guests: formData.guests,
+          checkin: formData.checkin,
+          checkout: formData.checkout,
+          message: formData.message
         }),
         signal: AbortSignal.timeout(15000)
       });
       if (!response.ok) {
-        throw new Error('Email service rejected the request');
-      }
-      const result = await response.json();
-      if (result.success !== true && result.success !== 'true') {
-        throw new Error('Email service did not accept the request');
+        throw new Error('Form submission failed');
       }
 
       toast.success('Booking request sent! Check your email — we will confirm within 24 hours.');

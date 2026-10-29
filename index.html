@@ -73,5 +73,15 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Hidden form for Netlify to detect at build time -->
+    <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="guests" />
+      <input type="date" name="checkin" />
+      <input type="date" name="checkout" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>
