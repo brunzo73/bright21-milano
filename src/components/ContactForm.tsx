@@ -113,7 +113,7 @@ const ContactForm = () => {
       }
 
       // Submit the request through FormSubmit (delivery to both inboxes).
-      const response = await fetch('https://formsubmit.co/ajax/alebresci75@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/ee1679c9e0aba116fff2581d24bd678e', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
