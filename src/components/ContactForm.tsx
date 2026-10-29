@@ -113,30 +113,28 @@ const ContactForm = () => {
         return;
       }
 
-      // Submit via Netlify Forms
-      const encode = (data: Record<string, string>) =>
-        Object.keys(data)
-          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
-          .join('&');
-
-      const response = await fetch('/', {
+      // Submit via Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          'form-name': 'booking',
-          'bot-field': honeypot,
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: 'e562f610-8555-4677-95d1-c29d9dfeda9e',
+          subject: `Nuova richiesta Bright 21 — ${formData.checkin} → ${formData.checkout}`,
+          from_name: 'Bright 21 Milano',
+          botcheck: honeypot,
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          phone: formData.phone || '—',
           guests: formData.guests,
           checkin: formData.checkin,
           checkout: formData.checkout,
-          message: formData.message
+          message: formData.message || '—'
         }),
         signal: AbortSignal.timeout(15000)
       });
-      if (!response.ok) {
-        throw new Error('Form submission failed');
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error('Web3Forms rejected the submission');
       }
 
       toast.success('Booking request sent! Check your email — we will confirm within 24 hours.');
