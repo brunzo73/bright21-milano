@@ -118,7 +118,7 @@ const ContactForm = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          access_key: 'e562f610-8555-4677-95d1-c29d9dfeda9e',
+          access_key: 'c0573041-ed88-43b4-ac5c-19166121dd13',
           subject: `Nuova richiesta Bright 21 — ${formData.checkin} → ${formData.checkout}`,
           from_name: 'Bright 21 Milano',
           botcheck: honeypot,
