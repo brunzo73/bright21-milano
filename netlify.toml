@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Same-origin proxy for the Airbnb iCal feed (no CORS, no third-party proxy)
+[[redirects]]
+  from = "/airbnb-calendar.ics"
+  to = "https://www.airbnb.it/calendar/ical/838297807993191673.ics?t=92a68c435ac2474d80e344233c04b281"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/airbnb-calendar.ics"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# SPA fallback so /admin and other routes load on refresh
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

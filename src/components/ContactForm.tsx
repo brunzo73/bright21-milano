@@ -23,19 +23,24 @@ const ContactForm = () => {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState('');
-  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error' | 'unavailable'>('idle');
   const [occupiedRanges, setOccupiedRanges] = useState<{ start: string; end: string }[]>([]);
   const [calendarSynced, setCalendarSynced] = useState(false);
 
   const AIRBNB_ICAL = 'https://www.airbnb.it/calendar/ical/838297807993191673.ics?t=92a68c435ac2474d80e344233c04b281';
 
-  useEffect(() => {
-    const fetchCalendar = async () => {
+  // Try the same-origin Netlify proxy first, then a public CORS proxy as fallback.
+  const loadCalendar = async (): Promise<{ start: string; end: string }[] | null> => {
+    const sources = [
+      '/airbnb-calendar.ics',
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(AIRBNB_ICAL)}`
+    ];
+    for (const url of sources) {
       try {
-        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(AIRBNB_ICAL)}`;
-        const res = await fetch(proxy, { signal: AbortSignal.timeout(10000) });
-        if (!res.ok) return;
+        const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+        if (!res.ok) continue;
         const text = await res.text();
+        if (!text.includes('BEGIN:VCALENDAR')) continue;
         const blocks = text.match(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g) || [];
         const events: { start: string; end: string }[] = [];
         for (const block of blocks) {
@@ -47,18 +52,24 @@ const ContactForm = () => {
           }
         }
         setOccupiedRanges(events);
-        if (events.length > 0) setCalendarSynced(true);
+        setCalendarSynced(true);
+        return events;
       } catch {
-        // Silent fail — form still works without live calendar data
+        // try next source
       }
-    };
-    fetchCalendar();
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    loadCalendar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const datesOverlapOccupied = (cin: string, cout: string): boolean => {
+  const datesOverlap = (ranges: { start: string; end: string }[], cin: string, cout: string): boolean => {
     const a = new Date(cin);
     const b = new Date(cout);
-    return occupiedRanges.some(r => a < new Date(r.end) && b > new Date(r.start));
+    return ranges.some(r => a < new Date(r.end) && b > new Date(r.start));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,11 +103,14 @@ const ContactForm = () => {
         return;
       }
 
-      // Check against live Airbnb calendar
-      if (occupiedRanges.length > 0 && datesOverlapOccupied(formData.checkin, formData.checkout)) {
-        toast.error('These dates are already booked. Please choose different dates or contact us.');
+      // Check against live Airbnb calendar (reload it if it wasn't available on page load)
+      const ranges = calendarSynced ? occupiedRanges : await loadCalendar();
+      if (ranges && datesOverlap(ranges, formData.checkin, formData.checkout)) {
+        toast.error('These dates are already booked. Please choose different dates.');
+        setFormStatus('unavailable');
         return;
       }
+      const calendarChecked = ranges !== null;
 
       // Validate that check-in is not in the past
       const today = new Date();
@@ -128,7 +142,8 @@ const ContactForm = () => {
           guests: formData.guests,
           checkin: formData.checkin,
           checkout: formData.checkout,
-          message: formData.message || '—'
+          message: formData.message || '—',
+          airbnb_calendar: calendarChecked ? 'Dates free on Airbnb calendar' : '⚠️ Calendar NOT verified — check Airbnb before confirming'
         }),
         signal: AbortSignal.timeout(15000)
       });
@@ -383,6 +398,13 @@ const ContactForm = () => {
                 </div>
               )}
 
+              {formStatus === 'unavailable' && (
+                <div className="rounded-xl bg-amber-50 border-2 border-amber-400 p-4 text-center">
+                  <p className="text-amber-900 font-semibold text-base">📅 These dates are not available</p>
+                  <p className="text-amber-800 text-sm mt-1">The apartment is already booked for part of this period. Please choose different dates.</p>
+                </div>
+              )}
+
               {formStatus === 'error' && (
                 <div className="rounded-xl bg-red-50 border-2 border-red-400 p-4 text-center">
                   <p className="text-red-800 font-semibold text-base">❌ Could not send your request</p>
@@ -396,7 +418,7 @@ const ContactForm = () => {
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                   disabled={!privacyConsent || isSubmitting}
                 >
-                  {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
+                  {isSubmitting ? 'Sending...' : 'Send Request'}
                 </Button>
               </div>
             </form>
