@@ -14,7 +14,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner position="top-center" richColors expand={true} duration={6000} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

@@ -23,6 +23,7 @@ const ContactForm = () => {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState('');
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [occupiedRanges, setOccupiedRanges] = useState<{ start: string; end: string }[]>([]);
   const [calendarSynced, setCalendarSynced] = useState(false);
 
@@ -139,7 +140,8 @@ const ContactForm = () => {
       }
 
       toast.success('Booking request sent! Check your email — we will confirm within 24 hours.');
-      
+      setFormStatus('success');
+
       // Reset form
       setFormData({
         name: '',
@@ -155,6 +157,7 @@ const ContactForm = () => {
     } catch (error) {
       console.error('Booking request failed');
       toast.error('Unable to send your request. Please try again later.');
+      setFormStatus('error');
     } finally {
       setIsSubmitting(false);
     }
@@ -375,9 +378,23 @@ const ContactForm = () => {
                 </div>
               </div>
 
+              {formStatus === 'success' && (
+                <div className="rounded-xl bg-green-50 border-2 border-green-400 p-4 text-center">
+                  <p className="text-green-800 font-semibold text-base">✅ Request sent successfully!</p>
+                  <p className="text-green-700 text-sm mt-1">We'll confirm availability within 24 hours. Check your email.</p>
+                </div>
+              )}
+
+              {formStatus === 'error' && (
+                <div className="rounded-xl bg-red-50 border-2 border-red-400 p-4 text-center">
+                  <p className="text-red-800 font-semibold text-base">❌ Could not send your request</p>
+                  <p className="text-red-700 text-sm mt-1">Please try again or contact us directly at <a href="mailto:alebresci75@gmail.com" className="underline font-medium">alebresci75@gmail.com</a></p>
+                </div>
+              )}
+
               <div className="text-center">
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                   disabled={!privacyConsent || isSubmitting}
                 >
