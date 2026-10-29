@@ -398,7 +398,7 @@ const ContactForm = () => {
                   className="btn-primary text-base sm:text-lg px-8 sm:px-12 py-3 w-full sm:w-auto"
                   disabled={!privacyConsent || isSubmitting}
                 >
-                  {isSubmitting ? 'Sending...' : 'Check Availability'}
+                  {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
                 </Button>
               </div>
             </form>

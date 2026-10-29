@@ -99,3 +99,11 @@
     @apply bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100;
   }
 }
+
+/* Hide Netlify attribution badge */
+[data-netlify-badge],
+.netlify-badge,
+a[href*="netlify.com"][target="_blank"]:not([class]),
+iframe[src*="netlify"] {
+  display: none !important;
+}

@@ -234,7 +234,7 @@ const Chatbot = () => {
         <Button
           aria-label="Open Milo chat"
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+          className="fixed bottom-6 left-6 h-14 w-14 rounded-full bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 z-50"
           size="icon"
         >
           <MessageCircle className="h-6 w-6 text-primary-foreground" />
@@ -243,7 +243,7 @@ const Chatbot = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-80 h-96 shadow-2xl z-50 flex flex-col bg-background/95 backdrop-blur-sm border-2">
+        <Card className="fixed bottom-6 left-6 w-80 h-96 shadow-2xl z-50 flex flex-col bg-background/95 backdrop-blur-sm border-2">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg">
             <div className="flex items-center gap-2">
