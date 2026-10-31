@@ -229,7 +229,7 @@ const ContactForm = () => {
                   </div>
                   
                   <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg px-3 py-1 inline-block">
-                    <span className="text-sm font-semibold text-green-800">✓ Best Price Guaranteed</span>
+                    <span className="text-sm font-semibold text-green-800">✓ Book direct: 10% off the Airbnb price</span>
                   </div>
                 </div>
               </div>

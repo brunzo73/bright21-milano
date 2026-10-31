@@ -18,8 +18,8 @@ const getResponse = (msg: string): string => {
 
   if (/price|cost|rate|quanto|prezzo|costo|€|euro|notte|night/.test(m))
     return it
-      ? "Il prezzo parte da €35 a persona a notte per 2 ospiti. Per disponibilità e prezzi esatti compila il form di prenotazione sulla pagina!"
-      : "Starting from €35 per person per night for 2 guests. For exact pricing and availability, use the booking form on this page!";
+      ? "Il prezzo parte da €35 a persona a notte per 2 ospiti, e prenotando direttamente da questo sito hai il 10% di sconto rispetto al prezzo Airbnb! Compila il form per disponibilità e prezzo esatto."
+      : "Starting from €35 per person per night for 2 guests — and booking directly on this site gets you 10% off the Airbnb price! Use the booking form for exact pricing and availability.";
 
   if (/check.?in|arriv|quando posso entrare/.test(m))
     return it
