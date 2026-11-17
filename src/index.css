@@ -107,3 +107,9 @@ a[href*="netlify.com"][target="_blank"]:not([class]),
 iframe[src*="netlify"] {
   display: none !important;
 }
+
+/* Offset anchor jumps for the fixed header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}

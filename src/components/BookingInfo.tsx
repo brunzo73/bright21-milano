@@ -26,7 +26,7 @@ const steps = [
 
 const BookingInfo = () => {
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
+    <section id="how-booking-works" className="py-12 sm:py-16 lg:py-20 px-3 sm:px-4 bg-white">
       <div className="max-w-5xl mx-auto">
 
         {/* Title */}

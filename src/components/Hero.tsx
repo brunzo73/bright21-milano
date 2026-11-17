@@ -52,7 +52,7 @@ const Hero = () => {
       {/* Hidden Admin Button */}
       <button
         onClick={handleAdminClick}
-        className="absolute top-4 right-4 z-20 w-10 h-10 opacity-0 hover:opacity-30 transition-opacity duration-300 bg-white/10 rounded-full flex items-center justify-center"
+        className="absolute bottom-4 left-4 z-20 w-10 h-10 opacity-0 hover:opacity-30 transition-opacity duration-300 bg-white/10 rounded-full flex items-center justify-center"
         aria-label="Admin Access"
         title="Clicca per accedere all'admin"
       >
