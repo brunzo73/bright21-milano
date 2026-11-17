@@ -113,3 +113,16 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 72px;
 }
+
+/* iOS Safari: native date inputs ignore width:100% and overflow their container */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 2.5rem;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}

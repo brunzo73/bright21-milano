@@ -321,7 +321,7 @@ const ContactForm = () => {
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                <div className="space-y-2">
+                <div className="space-y-2 min-w-0">
                   <Label htmlFor="checkin" className="text-gray-700 font-medium text-sm sm:text-base">
                     Check-in Date *
                   </Label>
@@ -337,7 +337,7 @@ const ContactForm = () => {
                   />
                 </div>
                 
-                <div className="space-y-2">
+                <div className="space-y-2 min-w-0">
                   <Label htmlFor="checkout" className="text-gray-700 font-medium text-sm sm:text-base">
                     Check-out Date *
                   </Label>
