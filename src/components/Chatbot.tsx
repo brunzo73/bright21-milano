@@ -14,7 +14,7 @@ interface Message {
 
 const getResponse = (msg: string): string => {
   const m = msg.toLowerCase();
-  const it = /[àèéìòùáíóú]/.test(m) || /\b(ciao|dove|come|cosa|quando|quanto|hai|ho|mi|il|la|le|per|non|si|può|è|con|che|del|della|in|un|una)\b/.test(m);
+  const it = /[àèéìòùáíóú]/.test(m) || /\b(ciao|salve|buongiorno|buonasera|grazie|dove|cosa|quando|quanto|quanti|hai|avete|ho|il|che|del|della|dello|degli|una|sono|vorrei|posso|prezzo|disponibile|appartamento|stazione)\b/.test(m);
 
   if (/price|cost|rate|quanto|prezzo|costo|€|euro|notte|night/.test(m))
     return it
@@ -158,17 +158,12 @@ const getResponse = (msg: string): string => {
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>(() => {
-    const isIt = typeof navigator !== 'undefined' && navigator.language?.startsWith('it');
-    return [{
-      id: '1',
-      text: isIt
-        ? "Ciao! Sono Milo 👋 L'assistente virtuale di Bright 21. Come posso aiutarti? Puoi chiedermi di posizione, check-in, servizi, prezzi, cancellazioni o qualsiasi altra cosa sull'appartamento!"
-        : "Hello! I'm Milo 👋 The virtual assistant for Bright 21. How can I help you? Ask me about the location, check-in, amenities, pricing, cancellations or anything about the apartment!",
-      isBot: true,
-      timestamp: new Date()
-    }];
-  });
+  const [messages, setMessages] = useState<Message[]>(() => [{
+    id: '1',
+    text: "Hello! I'm Milo 👋 The virtual assistant for Bright 21. How can I help you? Ask me about the location, check-in, amenities, pricing, cancellations or anything about the apartment!",
+    isBot: true,
+    timestamp: new Date()
+  }]);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -234,7 +229,7 @@ const Chatbot = () => {
         <Button
           aria-label="Open Milo chat"
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 left-6 h-14 w-14 rounded-full bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 z-50"
           size="icon"
         >
           <MessageCircle className="h-6 w-6 text-primary-foreground" />
@@ -243,7 +238,7 @@ const Chatbot = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 left-6 w-80 h-96 shadow-2xl z-50 flex flex-col bg-background/95 backdrop-blur-sm border-2">
+        <Card className="fixed bottom-6 right-6 w-80 h-96 shadow-2xl z-50 flex flex-col bg-background/95 backdrop-blur-sm border-2">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg">
             <div className="flex items-center gap-2">
@@ -252,7 +247,7 @@ const Chatbot = () => {
               </div>
               <div>
                 <h3 className="font-semibold">Milo</h3>
-                <p className="text-xs opacity-90">Assistente virtuale</p>
+                <p className="text-xs opacity-90">Virtual assistant</p>
               </div>
             </div>
             <Button
@@ -308,7 +303,7 @@ const Chatbot = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Scrivi il tuo messaggio..."
+                placeholder="Type your message..."
                 className="flex-1"
               />
               <Button
